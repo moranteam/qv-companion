@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>QV Companion</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦅</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f1117;--card:#181a24;--card2:#1e2130;--card3:#252838;
+  --border:#2a2d3e;--border2:#363a50;
+  --text:#d4d8e8;--text2:#9ba0b8;--text3:#6b7090;
+  --white:#f0f2fa;
+  --accent:#e8843c;--accent2:#d4722e;
+  --teal:#3dd9b6;--teal-bg:rgba(61,217,182,.08);--teal-b:rgba(61,217,182,.2);
+  --gold:#e8b84c;--gold-bg:rgba(232,184,76,.08);--gold-b:rgba(232,184,76,.2);
+  --blue:#5b8def;--blue-bg:rgba(91,141,239,.08);--blue-b:rgba(91,141,239,.2);
+  --red:#e85b5b;--red-bg:rgba(232,91,91,.08);--red-b:rgba(232,91,91,.2);
+  --green:#5bcc7b;--green-bg:rgba(91,204,123,.08);--green-b:rgba(91,204,123,.2);
+  --purple:#9b7bef;--purple-bg:rgba(155,123,239,.08);--purple-b:rgba(155,123,239,.2);
+  --radius:12px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* Top bar */
+.topbar{background:var(--card);border-bottom:1px solid var(--border);padding:16px 20px;position:sticky;top:0;z-index:100}
+.topbar-inner{max-width:820px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.brand h1{font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;color:var(--white);letter-spacing:-.5px}
+.brand-sub{font-size:13px;color:var(--text2);font-weight:500}
+
+/* Spirit Hall callout */
+.spirit-hall{display:flex;gap:12px;margin-bottom:14px;padding:10px 14px;background:var(--card2);border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--text2);align-items:center;flex-wrap:wrap}
+.sh-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;white-space:nowrap}
+.sh-primary{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-b)}
+.sh-secondary{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-b)}
+
+/* Nav tabs */
+.nav{display:flex;gap:4px;background:var(--bg);border-radius:10px;padding:3px}
+.nav-btn{flex:1;padding:11px 8px;background:transparent;border:none;border-radius:8px;color:var(--text3);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+.nav-btn.on{background:var(--accent);color:#fff}
+.nav-btn:not(.on):hover{color:var(--text)}
+
+/* Main */
+.main{max-width:820px;margin:0 auto;padding:16px 16px 100px}
+.view{display:none}.view.on{display:block}
+
+/* ==================== BUILD GUIDE ==================== */
+.slot{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden;transition:all .2s}
+.slot-head{padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none}
+.slot-head:hover{background:var(--card2)}
+.slot-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.slot-icon.armor{background:var(--teal-bg);border:1px solid var(--teal-b)}
+.slot-icon.weapon{background:var(--gold-bg);border:1px solid var(--gold-b)}
+.slot-icon.jewelry{background:var(--purple-bg);border:1px solid var(--purple-b)}
+.slot-title{flex:1}
+.slot-name{font-size:16px;font-weight:700;color:var(--white)}
+.slot-unique{font-size:12px;font-weight:600;margin-top:2px;display:flex;align-items:center;gap:6px}
+.slot-unique .tu-label{color:var(--text3);font-weight:500}
+.slot-unique .tu-name{color:var(--accent)}
+.slot-arrow{color:var(--text3);font-size:18px;transition:transform .2s}
+.slot.open .slot-arrow{transform:rotate(180deg)}
+.slot-detail{display:none;padding:0 20px 18px}
+.slot.open .slot-detail{display:block}
+
+/* Info blocks inside slots */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:600px){.info-grid{grid-template-columns:1fr}}
+.info-block{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.info-label{font-size:12px;font-weight:700;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.info-label .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot.rune{background:var(--gold)}.dot.gem{background:var(--green)}.dot.aspect{background:var(--blue)}.dot.temper{background:var(--red)}.dot.stat{background:var(--accent)}
+
+.pick{margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.pick:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.pick-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:5px;margin-bottom:4px}
+.pick-tag.best{background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-b)}
+.pick-tag.alt{background:rgba(255,255,255,.04);color:var(--text2);border:1px solid var(--border)}
+.pick-tag.gem{background:var(--green-bg);color:var(--green);border:1px solid var(--green-b)}
+
+.pick-name{font-size:15px;font-weight:700;color:var(--white);line-height:1.3}
+.pick-cat{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;margin-left:6px;vertical-align:middle}
+.cat-def{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-b)}
+.cat-off{background:var(--red-bg);color:var(--red);border:1px solid var(--red-b)}
+.cat-wep{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-b)}
+.cat-res{background:var(--green-bg);color:var(--green);border:1px solid var(--green-b)}
+.cat-mob{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-b)}
+.cat-util{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-b)}
+.pick-desc{font-size:13px;color:var(--text2);margin-top:4px;line-height:1.5}
+
+/* Rune-specific */
+.rune-pair{font-size:16px;font-weight:800;color:var(--white);margin-bottom:3px}
+.rune-pair .rit{color:var(--gold)}.rune-pair .inv{color:var(--purple)}.rune-pair .sep{color:var(--text3);margin:0 5px}
+.rune-fallback{margin-top:12px;padding:10px 12px;background:var(--card);border:1px dashed var(--border);border-radius:8px}
+.rune-fallback-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);margin-bottom:8px}
+.rune-fallback-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px}
+.rune-fallback-row:last-child{border-bottom:none}
+.rune-fallback-have{color:var(--text3);font-weight:600;min-width:80px}
+.rune-fallback-arrow{color:var(--text3)}
+.rune-fallback-use{color:var(--gold);font-weight:700}
+.rune-fallback-desc{color:var(--text2);flex-basis:100%;padding-left:0;margin-top:2px}
+.rune-line{font-size:12px;line-height:1.6;color:var(--text2)}
+.rune-line b{font-weight:600}
+
+/* Stat priority */
+.stat-line{font-size:14px;font-weight:600;color:var(--white);line-height:1.7}
+.stat-mw{font-size:12px;color:var(--text2);margin-top:4px}
+
+/* Callout box */
+.callout{background:var(--card2);border:1px solid var(--border2);border-radius:var(--radius);padding:14px 18px;margin-bottom:12px;font-size:14px;color:var(--text);line-height:1.6}
+.callout strong{color:var(--gold);font-weight:700}
+.callout em{color:var(--teal);font-style:normal;font-weight:600}
+
+/* ==================== GEAR CHECK ==================== */
+.gc-slot-bar{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px}
+.gc-sbtn{padding:9px 15px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text2);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.gc-sbtn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* Stat priority reference box */
+.gc-ref{background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:14px 18px;margin-bottom:14px}
+.gc-ref-title{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px}
+.gc-ref-stats{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.gc-ref-stat{font-size:13px;font-weight:600;color:var(--white);padding:4px 10px;background:var(--card);border:1px solid var(--border);border-radius:6px}
+.gc-ref-arrow{color:var(--text3);font-size:11px}
+
+.gc-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+@media(max-width:600px){.gc-cols{grid-template-columns:1fr}}
+.gc-col{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.gc-col-title{font-size:14px;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.gc-col-title.eq{color:var(--teal)}.gc-col-title.nd{color:var(--gold)}
+
+.gc-field{margin-bottom:10px}
+.gc-label{font-size:12px;color:var(--text3);font-weight:500;margin-bottom:4px}
+.gc-input,.gc-select{width:100%;background:var(--card2);border:1px solid var(--border);color:var(--white);padding:9px 12px;border-radius:7px;font-family:inherit;font-size:14px}
+.gc-select{cursor:pointer}
+
+.gc-stat-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .1s}
+.gc-stat-row:hover{background:var(--card2)}
+.gc-stat-row.checked{background:rgba(232,132,60,.06)}
+.gc-stat-check{width:22px;height:22px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;pointer-events:none}
+
+/* Temper tracker */
+.temper-track{margin-top:10px;padding:10px 12px;background:var(--card);border:1px solid var(--border);border-radius:8px}
+.temper-track-label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:6px;font-weight:600}
+.temper-track-row{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:13px;color:var(--text2);transition:background .1s}
+.temper-track-row:hover{background:var(--card2)}
+.temper-track-row.done{color:var(--green)}
+.temper-track-row.done span{text-decoration:line-through}
+.temper-chk{width:20px;height:20px;accent-color:var(--green);pointer-events:none;flex-shrink:0}
+.gc-stat-name{font-size:13px;color:var(--text);flex:1;line-height:1.3}
+.gc-stat-tier{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;flex-shrink:0}
+.gc-stat-tier.s{background:var(--teal-bg);color:var(--teal)}.gc-stat-tier.a{background:var(--blue-bg);color:var(--blue)}
+.gc-stat-tier.b{background:var(--gold-bg);color:var(--gold)}.gc-stat-tier.c{background:rgba(255,255,255,.04);color:var(--text3)}
+.gc-stat-tier.x{background:var(--red-bg);color:var(--red)}
+.gc-stat-input{width:75px;background:var(--card2);border:1px solid var(--border);color:var(--white);padding:6px 8px;border-radius:5px;font-family:inherit;font-size:13px;text-align:right;flex-shrink:0}
+.gc-stat-input:disabled{opacity:.3}
+.gc-stat-unit{font-size:11px;color:var(--text3);width:14px;flex-shrink:0}
+
+.gc-section-label{font-size:11px;font-weight:700;color:var(--text3);margin:12px 0 6px;padding-top:8px;border-top:1px solid var(--border)}
+.gc-search{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text);font-size:14px;margin-bottom:6px;outline:none;transition:border-color .15s}
+.gc-search:focus{border-color:var(--accent)}
+.gc-search::placeholder{color:var(--text3)}
+
+.gc-compare-btn{display:block;width:100%;max-width:320px;margin:0 auto 20px;padding:14px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:all .15s}
+.gc-compare-btn:hover{background:var(--accent2);transform:translateY(-1px)}
+
+/* Results */
+.gc-results{display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:20px}
+.gc-results.show{display:block}
+.gc-verdict{text-align:center;padding:18px;border-radius:10px;margin-bottom:18px}
+.gc-verdict.keep{background:var(--teal-bg);border:1px solid var(--teal-b)}
+.gc-verdict.swap{background:var(--gold-bg);border:1px solid var(--gold-b)}
+.gc-verdict.sit{background:var(--purple-bg);border:1px solid var(--purple-b)}
+.gc-verdict-word{font-family:'Outfit',sans-serif;font-size:30px;font-weight:800}
+.gc-verdict.keep .gc-verdict-word{color:var(--teal)}
+.gc-verdict.swap .gc-verdict-word{color:var(--gold)}
+.gc-verdict.sit .gc-verdict-word{color:var(--purple)}
+.gc-verdict-score{font-size:14px;color:var(--text2);margin-top:6px}
+.gc-verdict-reason{font-size:14px;color:var(--text);margin-top:10px;line-height:1.5}
+.gc-diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:600px){.gc-diff-grid{grid-template-columns:1fr}}
+.gc-diff-col h3{font-size:13px;font-weight:700;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.gc-diff-col.gains h3{color:var(--green)}.gc-diff-col.losses h3{color:var(--red)}
+.gc-diff-row{display:flex;justify-content:space-between;font-size:13px;padding:4px 0}
+.gc-diff-val.pos{color:var(--green);font-weight:600}.gc-diff-val.neg{color:var(--red);font-weight:600}
+.gc-action{margin-top:16px;padding:14px 18px;background:var(--card2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0}
+.gc-action-label{font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px}
+.gc-action-text{font-size:14px;color:var(--white);line-height:1.5}
+.gc-equip-btns{display:flex;gap:10px;margin-top:16px;justify-content:center;flex-wrap:wrap}
+.gc-equip-btn{padding:12px 24px;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .1s,opacity .1s}
+.gc-equip-btn:hover{transform:scale(1.03);opacity:.9}
+.gc-equip-btn.swap{background:var(--gold);color:#1a1a2e}
+.gc-equip-btn.keep{background:var(--teal);color:#1a1a2e}
+.gc-saved-msg{text-align:center;padding:16px;background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.3);border-radius:10px;color:var(--green);font-size:15px;font-weight:600}
+
+/* ==================== PROGRESS ==================== */
+.prog-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:8px;display:flex;align-items:flex-start;gap:14px;cursor:pointer;user-select:none;transition:all .15s}
+.prog-item:hover{border-color:var(--border2)}
+.prog-item.done{opacity:.45}
+.prog-check{width:24px;height:24px;border-radius:6px;border:2px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;font-size:13px;color:transparent;transition:all .15s}
+.prog-item.done .prog-check{background:var(--teal);border-color:var(--teal);color:var(--bg)}
+.prog-content{flex:1}
+.prog-priority{font-size:11px;font-weight:700;color:var(--accent);margin-bottom:3px}
+.prog-task{font-size:15px;font-weight:600;color:var(--white);line-height:1.4}
+.prog-item.done .prog-task{text-decoration:line-through;color:var(--text2)}
+.prog-how{font-size:13px;color:var(--text2);margin-top:4px;line-height:1.5}
+
+.prog-section{font-size:12px;font-weight:700;color:var(--text3);margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <h1>🦅 QV Companion</h1>
+      <span class="brand-sub">Quill Volley Spiritborn / Season 11</span>
+    </div>
+    <div class="spirit-hall">
+      <span class="sh-badge sh-primary">Primary: Eagle</span>
+      <span class="sh-badge sh-secondary">Secondary: Jaguar</span>
+      <span>Eagle gives Storm Feathers + Vulnerable on Eagle skills. Jaguar gives Ferocity stacking for Attack Speed.</span>
+    </div>
+    <div class="nav">
+      <button class="nav-btn on" onclick="switchView('build',this)">Build Guide</button>
+      <button class="nav-btn" onclick="switchView('gear',this)">Gear Check</button>
+      <button class="nav-btn" onclick="switchView('progress',this)">Progress</button>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ==================== BUILD GUIDE ==================== -->
+<div class="view on" id="v-build">
+  <div class="callout">
+    <strong>Runeword limit:</strong> 2 pairs max. Use runes in <em>Chest</em> + <em>Pants</em>. Everything else gets <em>gems</em>.
+  </div>
+  <div class="callout" style="border-left:3px solid #e8843c;background:rgba(232,132,60,.06)">
+    <strong>Skip These Uniques</strong> (power doesn't help QV build):<br>
+    <span style="color:var(--text2);font-size:13px">Ring of Writhing Moon (Pestilent Swarm) · Shattered Vow (Thorns) · Yen's Blessing (Basic Attack focus) · Scorn of the Earth (Slam skills) · Earthbreaker (Ground Stomp) · Chant of the Sky (Thunderstrike)</span>
+  </div>
+  <div id="buildSlots"></div>
+</div>
+
+<!-- ==================== GEAR CHECK ==================== -->
+<div class="view" id="v-gear">
+  <div class="gc-slot-bar" id="gcSlotBar"></div>
+  <div id="gcRefBox"></div>
+  <div class="gc-cols">
+    <div class="gc-col">
+      <div class="gc-col-title eq">Equipped</div>
+      <div id="gcEqMeta"></div>
+      <div id="gcEqStats"></div>
+    </div>
+    <div class="gc-col">
+      <div class="gc-col-title nd">New Drop</div>
+      <div id="gcNdMeta"></div>
+      <div id="gcNdStats"></div>
+    </div>
+  </div>
+  <button class="gc-compare-btn" onclick="runCompare()">Compare</button>
+  <div class="gc-results" id="gcResults"></div>
+</div>
+
+<!-- ==================== PROGRESS ==================== -->
+<div class="view" id="v-progress">
+  <div id="progressList"></div>
+</div>
+
+</div>
+
+<script>
+// ======= NAV =======
+function switchView(id,btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('on'));
+  document.getElementById('v-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+
+// ======= BUILD GUIDE DATA =======
+const SLOTS = [
+  {
+    id:'helm',name:'Helm',type:'armor',icon:'🪖',sockets:2,
+    unique:'Harmony of Ebewaka',uniqueNote:'Huge damage from combining 3 spirit types',
+    runes:{
+      best:{rit:'CIR',inv:'LUM',ritD:'50 Offering every 2 seconds passively',invD:'+Skill Ranks for 7 seconds at 100 Offering',why:'Passive Offering generation into free skill ranks. Zero effort.'},
+      alt:{rit:'CEM',inv:'GAR',ritD:'75 Offering on Evade',invD:'+7% Critical Strike Chance for 5 seconds at 200 Offering',why:'Evade-triggered Critical Strike boost.'},
+      fallbacks:[
+        {have:'CIR only',use:'CIR + GAR',desc:'Passive Offering into Barrier. Defensive fallback.'},
+        {have:'LUM only',use:'CEM + LUM',desc:'Evade generates Offering for skill ranks.'},
+        {have:'Neither',use:'2x Grand Ruby',desc:'Gem with Max Life until you find the runes.'}
+      ]
+    },
+    gems:{best:'2x Grand Ruby',bestS:'+Maximum Life',alt:'2x Grand Topaz',altS:'+Basic Skill Damage (Quill Volley counts as Basic)'},
+    aspect:{best:'Aspect of Might',bestCat:'Defensive',bestCatC:'cat-def',bestD:'Basic Skills grant 20% Damage Reduction for 6 seconds',
+            alt:'Aspect of Disobedience',altCat:'Defensive',altCatC:'cat-def',altD:'Stacking Armor on dealing damage, up to 50%'},
+    temper:{best:'Barrier Generation',bestCat:'Defensive',bestCatC:'cat-def',bestR:'+8.0 to 12.0%',
+            alt:'Maximum Life %',altCat:'Defensive',altCatC:'cat-def',altR:'+10.0 to 17.5%'},
+    stats:'Maximum Life > Cooldown Reduction > Dexterity > Resistance to All Elements',mw:'Masterwork: Maximum Life or Cooldown Reduction'
+  },
+  {
+    id:'chest',name:'Chest',type:'armor',icon:'🛡️',sockets:2,
+    runes:{
+      best:{rit:'POC',inv:'XAN',ritD:'Burn 5% max resource for Offering',invD:'At 300 Offering: Guaranteed Critical Strike + Overpower',why:'Big burst spike for elites and bosses.'},
+      alt:{rit:'CEM',inv:'GAR',ritD:'75 Offering on Evade',invD:'+7% Critical Strike Chance for 5 seconds',why:'Consistent Critical Strike on Evade if missing POC or XAN.'},
+      fallbacks:[
+        {have:'POC only',use:'POC + GAR',desc:'Resource burn into Barrier. Defensive until you find XAN.'},
+        {have:'XAN only',use:'CEM + XAN',desc:'Evade into guaranteed Crit + Overpower. Still strong.'},
+        {have:'Neither',use:'2x Grand Ruby',desc:'Gem with Max Life until you find the runes.'}
+      ]
+    },
+    gems:{best:'2x Grand Ruby',bestS:'+Maximum Life',alt:'2x Grand Amethyst',altS:'+Damage Over Time'},
+    aspect:{best:'Aspect of Might',bestCat:'Defensive',bestCatC:'cat-def',bestD:'Basic Skills grant 20% Damage Reduction for 6 seconds',
+            alt:'Aspect of the Crowded Sage',altCat:'Defensive',altCatC:'cat-def',altD:'Heal per nearby enemy on Defensive Skill'},
+    temper:{best:'Maximum Life %',bestCat:'Defensive',bestCatC:'cat-def',bestR:'+10.0 to 17.5%',
+            alt:'Total Armor %',altCat:'Defensive',altCatC:'cat-def',altR:'+8.0 to 14.0%'},
+    stats:'Maximum Life > Dexterity > Armor > Resistance to All Elements',mw:'Masterwork: Maximum Life'
+  },
+  {
+    id:'gloves',name:'Gloves',type:'armor',icon:'🧤',sockets:0,
+    aspect:{best:'Aspect of Moonrise',bestCat:'Offensive',bestCatC:'cat-off',bestD:'Basic Skills grant stacking Attack Speed up to 60%',
+            alt:'Accelerating Aspect',altCat:'Offensive',altCatC:'cat-off',altD:'Critical Strikes increase Attack Speed'},
+    temper:{best:'Mystic Circle Potency',bestCat:'Weapons',bestCatC:'cat-wep',bestR:'Boosts Mystic Circle. Key Quill Volley temper.',
+            alt:'Core Damage',altCat:'Offensive',altCatC:'cat-off',altR:'+40.0 to 65.0%'},
+    stats:'+Ranks Quill Volley > Critical Strike Chance > Attack Speed > Dexterity',mw:'Masterwork: +Ranks Quill Volley or Critical Strike Chance'
+  },
+  {
+    id:'pants',name:'Pants',type:'armor',icon:'👖',sockets:2,
+    unique:'Tassets of the Dawning Sky',uniqueNote:'Reactive resistance to non-Physical damage',
+    runes:{
+      best:{rit:'AHU',inv:'QAX',ritD:'Offering on Lucky Hit vs non-Healthy enemies',invD:'Dump resource for up to 100% bonus damage for 1 second',why:'Burst window for finishing elites. Best 2nd runeword.'},
+      alt:{rit:'CEM',inv:'GAR',ritD:'75 Offering on Evade',invD:'+7% Critical Strike Chance for 5 seconds',why:'Reliable Critical Strike if missing AHU or QAX.'},
+      fallbacks:[
+        {have:'AHU only',use:'AHU + GAR',desc:'Lucky Hit into Barrier. Keeps you alive while farming for QAX.'},
+        {have:'AHU only',use:'AHU + XAL',desc:'Lucky Hit into 2s Unstoppable. Great if CC is killing you.'},
+        {have:'AHU only',use:'AHU + TAL',desc:'Lucky Hit pulls in enemies. Helps group mobs for QV.'},
+        {have:'QAX only',use:'CEM + QAX',desc:'Evade triggers resource dump burst. Solid offensive option.'},
+        {have:'Neither',use:'2x Grand Ruby',desc:'Gem with Max Life until you find the runes.'}
+      ]
+    },
+    gems:{best:'2x Grand Ruby',bestS:'+Maximum Life',alt:'2x Grand Topaz',altS:'+Basic Skill Damage'},
+    aspect:{best:'Aspect of Forest Power',bestCat:'Defensive',bestCatC:'cat-def',bestD:'Gorilla skills generate Barrier with bonuses',
+            alt:'Aspect of the Deflecting Barrier',altCat:'Defensive',altCatC:'cat-def',altD:'Barrier grants chance to block attacks'},
+    temper:{best:'Barrier Generation',bestCat:'Defensive',bestCatC:'cat-def',bestR:'+8.0 to 12.0%',
+            alt:'Maximum Life %',altCat:'Defensive',altCatC:'cat-def',altR:'+10.0 to 17.5%'},
+    stats:'Maximum Life > Dexterity > All Stats > Armor',mw:'Masterwork: Maximum Life or Dexterity'
+  },
+  {
+    id:'boots',name:'Boots',type:'armor',icon:'👢',sockets:0,
+    unique:'Path of the Emissary',uniqueNote:'Every 4-12m moved, invoke Core Skill from primary Spirit Hall',
+    aspect:{best:'Aspect of Avoidance',bestCat:'Defensive',bestCatC:'cat-def',bestD:'Evade grants Unstoppable and Damage Reduction briefly',
+            alt:'Aspect of Might',altCat:'Defensive',altCatC:'cat-def',altD:'Basic Skills grant 20% Damage Reduction for 6 seconds'},
+    temper:{best:'Movement Speed',bestCat:'Mobility',bestCatC:'cat-mob',bestR:'+10.0 to 17.3%',
+            alt:'Evade Cooldown Reduction',altCat:'Mobility',altCatC:'cat-mob',altR:'Reduces Evade cooldown'},
+    stats:'Movement Speed > Dexterity > Maximum Life > Resistance to All Elements',mw:'Masterwork: Movement Speed or Dexterity'
+  },
+  {
+    id:'weapon',name:'Weapon (Quarterstaff)',type:'weapon',icon:'⚔️',sockets:2,
+    unique:'Rod of Kepeleke',uniqueNote:'Quill Volley counts as Basic + Core. Guaranteed Critical Strike at max Vigor. BUILD-DEFINING.',
+    gems:{best:'2x Grand Topaz',bestS:'+Basic Skill Damage (Quill Volley = Basic via Rod)',alt:'2x Grand Emerald',altS:'+Critical Strike Damage to Vulnerable'},
+    aspect:{best:'Rebounding Aspect',bestCat:'Offensive',bestCatC:'cat-off',bestD:'Quill Volley feathers explode + return. #1 DPS aspect.',
+            alt:'Aspect of Adaptability',altCat:'Offensive',altCatC:'cat-off',altD:'Bonus damage at full resource'},
+    temper:{best:'Chance to Cast Twice',bestCat:'Weapons',bestCatC:'cat-wep',bestR:'Skills can repeat. Massive DPS.',
+            alt:'Vulnerable Damage',altCat:'Offensive',altCatC:'cat-off',altR:'+40.0 to 65.0%'},
+    stats:'DPS > Dexterity > Critical Strike Damage > Vulnerable Damage > Resource Cost Reduction',mw:'Masterwork: Critical Strike Damage or Vulnerable Damage'
+  },
+  {
+    id:'amulet',name:'Amulet',type:'jewelry',icon:'📿',sockets:1,
+    unique:"Locran's Talisman",uniqueNote:'Critical Strike Chance per point of Primary Resource. Build-defining.',
+    gems:{best:'Grand Skull',bestS:'+Armor',alt:'Grand Amethyst',altS:'+Damage Over Time'},
+    aspect:{best:'Aspect of Adaptability',bestCat:'Offensive',bestCatC:'cat-off',bestD:'Bonus damage at full resource. Multiplier with Rod of Kepeleke.',
+            alt:'Aspect of Might',altCat:'Defensive',altCatC:'cat-def',altD:'Basic Skills grant 20% Damage Reduction for 6 seconds'},
+    temper:{best:'Resource Cost Reduction',bestCat:'Resource',bestCatC:'cat-res',bestR:'+6.0 to 10.0%',
+            alt:'Cooldown Reduction',altCat:'Utility',altCatC:'cat-util',altR:'+6.0 to 10.0%'},
+    stats:'All Stats > Critical Strike Damage > Maximum Resource > Resource Cost Reduction',mw:'Masterwork: Critical Strike Damage or All Stats'
+  },
+  {
+    id:'ring1',name:'Ring 1',type:'jewelry',icon:'💍',sockets:1,
+    gems:{best:'Grand Skull',bestS:'+Armor',alt:'Grand Ruby',altS:'+Maximum Life'},
+    aspect:{best:'Rebounding Aspect',bestCat:'Offensive',bestCatC:'cat-off',bestD:'Quill Volley feathers explode + return. If not on weapon, MUST be here.',
+            alt:'Aspect of Adaptability',altCat:'Offensive',altCatC:'cat-off',altD:'Bonus damage at full resource'},
+    temper:{best:'Resource Generation',bestCat:'Resource',bestCatC:'cat-res',bestR:'+10.0 to 12.5%',
+            alt:'Critical Strike Damage',altCat:'Offensive',altCatC:'cat-off',altR:'+40.0 to 65.0%'},
+    stats:'Critical Strike Chance > Critical Strike Damage > Vulnerable Damage > Attack Speed',mw:'Masterwork: Critical Strike Damage or Vulnerable Damage'
+  },
+  {
+    id:'ring2',name:'Ring 2',type:'jewelry',icon:'💍',sockets:1,
+    unique:'Ring of the Midnight Sun',uniqueNote:'Vigor on Critical Strike with Quill Volley. Enables infinite resource engine.',
+    gems:{best:'Grand Skull',bestS:'+Armor',alt:'Grand Ruby',altS:'+Maximum Life'},
+    aspect:{best:'Aspect of Adaptability',bestCat:'Offensive',bestCatC:'cat-off',bestD:'Bonus damage at full resource',
+            alt:'Aspect of Moonrise',altCat:'Offensive',altCatC:'cat-off',altD:'Basic Skills grant stacking Attack Speed'},
+    temper:{best:'Resource Generation',bestCat:'Resource',bestCatC:'cat-res',bestR:'+10.0 to 12.5%',
+            alt:'Cooldown Reduction',altCat:'Utility',altCatC:'cat-util',altR:'+6.0 to 10.0%'},
+    stats:'Critical Strike Chance > Critical Strike Damage > Resource Generation > Attack Speed',mw:'Masterwork: Critical Strike Chance or Critical Strike Damage'
+  },
+];
+
+function renderBuild() {
+  const el = document.getElementById('buildSlots');
+  el.innerHTML = SLOTS.map(s => {
+    let detail = '<div class="info-grid">';
+
+    // Socket section
+    if (s.sockets === 2 && s.runes) {
+      let fallbackHtml='';
+      if(s.runes.fallbacks&&s.runes.fallbacks.length){
+        fallbackHtml=`<div class="rune-fallback">
+          <div class="rune-fallback-title">Missing one rune?</div>
+          ${s.runes.fallbacks.map(f=>`<div class="rune-fallback-row">
+            <span class="rune-fallback-have">${f.have}</span>
+            <span class="rune-fallback-arrow">→</span>
+            <span class="rune-fallback-use">${f.use}</span>
+            <span class="rune-fallback-desc">${f.desc}</span>
+          </div>`).join('')}
+        </div>`;
+      }
+      detail += `<div class="info-block">
+        <div class="info-label"><span class="dot rune"></span>RUNEWORDS</div>
+        ${renderRune('Best',s.runes.best)}${renderRune('Alt',s.runes.alt)}
+        ${fallbackHtml}
+        <div style="margin-top:10px;font-size:12px;color:var(--text3);padding:8px 10px;background:var(--card);border-radius:6px">If rune slots used elsewhere, gem this slot instead:</div>
+        <div style="margin-top:8px">
+          ${renderGem('Gem',s.gems.best,s.gems.bestS)}
+          ${renderGem('Gem Alt',s.gems.alt,s.gems.altS)}
+        </div>
+      </div>`;
+    } else if (s.sockets === 2 && !s.runes) {
+      detail += `<div class="info-block">
+        <div class="info-label"><span class="dot gem"></span>GEMS (recommended)</div>
+        ${renderGem('Best',s.gems.best,s.gems.bestS)}
+        ${renderGem('Alt',s.gems.alt,s.gems.altS)}
+      </div>`;
+    } else if (s.sockets === 1) {
+      detail += `<div class="info-block">
+        <div class="info-label"><span class="dot gem"></span>GEM</div>
+        ${renderGem('Best',s.gems.best,s.gems.bestS)}
+        ${renderGem('Alt',s.gems.alt,s.gems.altS)}
+      </div>`;
+    } else {
+      detail += `<div class="info-block"><div class="info-label"><span class="dot gem"></span>SOCKETS</div><div style="font-size:13px;color:var(--text3)">No sockets on this slot.</div></div>`;
+    }
+
+    // Aspect
+    detail += `<div class="info-block">
+      <div class="info-label"><span class="dot aspect"></span>ASPECT</div>
+      ${renderAspect('Best',s.aspect.best,s.aspect.bestCat,s.aspect.bestCatC,s.aspect.bestD)}
+      ${renderAspect('Alt',s.aspect.alt,s.aspect.altCat,s.aspect.altCatC,s.aspect.altD)}
+    </div>`;
+
+    // Temper with tracker
+    detail += `<div class="info-block">
+      <div class="info-label"><span class="dot temper"></span>TEMPER</div>
+      ${s.temper ? renderTemper('Best',s.temper.best,s.temper.bestCat,s.temper.bestCatC,s.temper.bestR) + renderTemper('Alt',s.temper.alt,s.temper.altCat,s.temper.altCatC,s.temper.altR)
+      + `<div class="temper-track">
+          <div class="temper-track-label">Temper Status:</div>
+          <div class="temper-track-row" onclick="toggleTemper('${s.id}','t1',this);event.stopPropagation()">
+            <input type="checkbox" class="temper-chk" id="tmp_${s.id}_t1"><span>Temper 1 landed</span>
+          </div>
+          <div class="temper-track-row" onclick="toggleTemper('${s.id}','t2',this);event.stopPropagation()">
+            <input type="checkbox" class="temper-chk" id="tmp_${s.id}_t2"><span>Temper 2 landed</span>
+          </div>
+        </div>` : '<div style="font-size:13px;color:var(--text3)">No temper for this slot.</div>'}
+    </div>`;
+
+    // Stats
+    detail += `<div class="info-block" style="grid-column:1/-1">
+      <div class="info-label"><span class="dot stat"></span>STAT PRIORITY</div>
+      <div class="stat-line">${s.stats}</div>
+      <div class="stat-mw">${s.mw}</div>
+    </div>`;
+
+    detail += '</div>';
+
+    const uniqueHtml = s.unique
+      ? `<div class="slot-unique"><span class="tu-label">Target Unique:</span> <span class="tu-name">${s.unique}</span></div>`
+      : '';
+
+    return `<div class="slot" onclick="this.classList.toggle('open')">
+      <div class="slot-head">
+        <div class="slot-icon ${s.type}">${s.icon}</div>
+        <div class="slot-title">
+          <div class="slot-name">${s.name}</div>
+          ${uniqueHtml}
+        </div>
+        <span class="slot-arrow">▾</span>
+      </div>
+      <div class="slot-detail">${detail}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderRune(tag, r) {
+  const cls = tag === 'Best' ? 'best' : 'alt';
+  return `<div class="pick"><div class="pick-tag ${cls}">${tag}</div>
+    <div class="rune-pair"><span class="rit">${r.rit}</span><span class="sep">+</span><span class="inv">${r.inv}</span></div>
+    <div class="rune-line"><b style="color:var(--gold)">${r.rit}</b> (Ritual): ${r.ritD}</div>
+    <div class="rune-line"><b style="color:var(--purple)">${r.inv}</b> (Invocation): ${r.invD}</div>
+    <div class="pick-desc">${r.why}</div>
+  </div>`;
+}
+
+function renderGem(tag, name, stat) {
+  const cls = tag === 'Best' || tag === 'Gem' ? 'gem' : 'alt';
+  return `<div class="pick"><div class="pick-tag ${cls}">${tag}</div>
+    <div class="pick-name">${name}</div><div class="pick-desc">${stat}</div></div>`;
+}
+
+function renderAspect(tag, name, cat, catC, desc) {
+  const cls = tag === 'Best' ? 'best' : 'alt';
+  return `<div class="pick"><div class="pick-tag ${cls}">${tag}</div>
+    <div><span class="pick-name">${name}</span><span class="pick-cat ${catC}">${cat}</span></div>
+    <div class="pick-desc">${desc}</div></div>`;
+}
+
+function renderTemper(tag, name, cat, catC, range) {
+  const cls = tag === 'Best' ? 'best' : 'alt';
+  return `<div class="pick"><div class="pick-tag ${cls}">${tag}</div>
+    <div><span class="pick-name">${name}</span><span class="pick-cat ${catC}">${cat}</span></div>
+    <div class="pick-desc">${range}</div></div>`;
+}
+
+// ======= GEAR CHECK =======
+// Weight tiers: S=10, A=7, B=4, C=2, TRASH=0
+const W={S:10,A:7,B:4,C:2,X:0};
+
+// FULL affix pools per slot for Spiritborn (from d4builds.gg Season 11)
+const GC_INHERENT = {
+  helm:[{n:'Armor (inherent)',u:'',w:W.B}],
+  chest:[{n:'Armor (inherent)',u:'',w:W.B}],
+  gloves:[{n:'Armor (inherent)',u:'',w:W.B}],
+  pants:[{n:'Armor (inherent)',u:'',w:W.B}],
+  boots:[{n:'Armor (inherent)',u:'',w:W.B},{n:'Movement Speed (inherent)',u:'%',w:W.A}],
+  weapon:[{n:'Damage per Second (inherent)',u:'',w:W.S},{n:'Damage per Hit (inherent)',u:'',w:W.A},{n:'Attacks per Second (inherent)',u:'',w:W.A},{n:'Weapon Type Bonus (inherent)',u:'',w:W.B}],
+  amulet:[{n:'Resistance to All Elements (inherent)',u:'',w:W.B}],
+  ring1:[{n:'Resistance to All Elements (inherent)',u:'',w:W.B}],
+  ring2:[{n:'Resistance to All Elements (inherent)',u:'',w:W.B}],
+};
+const GC_STATS = {
+  helm:[
+    {n:'Dexterity',u:'',w:W.S},
+    {n:'+Ranks Potency Skills',u:'',w:W.A},
+    {n:'Maximum Life',u:'',w:W.A},
+    {n:'Cooldown Reduction',u:'%',w:W.A},
+    {n:'Maximum Resource',u:'',w:W.A},
+    {n:'Resource Cost Reduction',u:'%',w:W.A},
+    {n:'Armor',u:'',w:W.B},
+    {n:'Lucky Hit Chance',u:'%',w:W.B},
+    {n:'Resistance to All Elements',u:'',w:W.B},
+    {n:'Vigor per Second',u:'',w:W.B},
+    {n:'Crowd Control Duration',u:'%',w:W.C},
+    {n:'Life per 5 Seconds',u:'',w:W.C},
+    {n:'Life on Kill',u:'',w:W.C},
+    {n:'Healing Received',u:'%',w:W.C},
+    {n:'Fortify Generation',u:'%',w:W.C},
+    {n:'Cold Resistance',u:'',w:W.C},
+    {n:'Fire Resistance',u:'',w:W.C},
+    {n:'Lightning Resistance',u:'',w:W.C},
+    {n:'Poison Resistance',u:'',w:W.C},
+    {n:'Shadow Resistance',u:'',w:W.C},
+    {n:'Physical Resistance',u:'',w:W.C},
+    {n:'Thorns',u:'',w:W.X},
+  ],
+  chest:[
+    {n:'Dexterity',u:'',w:W.S},
+    {n:'Maximum Life',u:'',w:W.A},
+    {n:'Resource Cost Reduction',u:'%',w:W.A},
+    {n:'Maximum Resource',u:'',w:W.A},
+    {n:'Armor',u:'',w:W.B},
+    {n:'Resistance to All Elements',u:'',w:W.B},
+    {n:'Vigor per Second',u:'',w:W.B},
+    {n:'Life per 5 Seconds',u:'',w:W.C},
+    {n:'Life on Kill',u:'',w:W.C},
+    {n:'Healing Received',u:'%',w:W.C},
+    {n:'Fortify Generation',u:'%',w:W.C},
+    {n:'Cold Resistance',u:'',w:W.C},
+    {n:'Fire Resistance',u:'',w:W.C},
+    {n:'Lightning Resistance',u:'',w:W.C},
+    {n:'Poison Resistance',u:'',w:W.C},
+    {n:'Shadow Resistance',u:'',w:W.C},
+    {n:'Physical Resistance',u:'',w:W.C},
+    {n:'Thorns',u:'',w:W.X},
+  ],
+  gloves:[
+    {n:'+Ranks Quill Volley',u:'',w:W.S},
+    {n:'Critical Strike Chance',u:'%',w:W.S},
+    {n:'Critical Strike Damage',u:'%',w:W.S},
+    {n:'Vulnerable Damage',u:'%',w:W.S},
+    {n:'Dexterity',u:'',w:W.S},
+    {n:'Attack Speed',u:'%',w:W.A},
+    {n:'Cooldown Reduction',u:'%',w:W.A},
+    {n:'Maximum Life',u:'',w:W.A},
+    {n:'Resource Cost Reduction',u:'%',w:W.A},
+    {n:'Primary Resource',u:'%',w:W.A},
+    {n:'Armor',u:'',w:W.B},
+    {n:'Lucky Hit Chance',u:'%',w:W.B},
+    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
+    {n:'+Ranks Core Skills',u:'',w:W.B},
+    {n:'Life on Hit',u:'',w:W.C},
+    {n:'Life on Kill',u:'',w:W.C},
+    {n:'Life per 5 Seconds',u:'',w:W.C},
+    {n:'Resistance to All Elements',u:'',w:W.C},
+    {n:'Overpower Damage',u:'%',w:W.X},
+    {n:'Damage Over Time',u:'%',w:W.X},
+  ],
+  pants:[
+    {n:'Dexterity',u:'',w:W.S},
+    {n:'Maximum Life',u:'',w:W.A},
+    {n:'Armor',u:'',w:W.B},
+    {n:'Resistance to All Elements',u:'',w:W.B},
+    {n:'+Ranks Basic Skills',u:'',w:W.B},
+    {n:'Life per 5 Seconds',u:'',w:W.C},
+    {n:'Life on Kill',u:'',w:W.C},
+    {n:'Healing Received',u:'%',w:W.C},
+    {n:'Dodge Chance',u:'%',w:W.C},
+    {n:'Fortify Generation',u:'%',w:W.C},
+    {n:'Potion Capacity',u:'',w:W.C},
+    {n:'Cold Resistance',u:'',w:W.C},
+    {n:'Fire Resistance',u:'',w:W.C},
+    {n:'Lightning Resistance',u:'',w:W.C},
+    {n:'Poison Resistance',u:'',w:W.C},
+    {n:'Shadow Resistance',u:'',w:W.C},
+    {n:'Physical Resistance',u:'',w:W.C},
+    {n:'Thorns',u:'',w:W.X},
+  ],
+  boots:[
+    {n:'Dexterity',u:'',w:W.S},
+    {n:'Movement Speed',u:'%',w:W.A},
+    {n:'Maximum Life',u:'',w:W.A},
+    {n:'Armor',u:'',w:W.B},
+    {n:'Resistance to All Elements',u:'',w:W.B},
+    {n:'Vigor per Second',u:'',w:W.B},
+    {n:'Life per 5 Seconds',u:'',w:W.C},
+    {n:'Life on Kill',u:'',w:W.C},
+    {n:'Healing Received',u:'%',w:W.C},
+    {n:'Dodge Chance',u:'%',w:W.C},
+    {n:'Fortify Generation',u:'%',w:W.C},
+    {n:'Cold Resistance',u:'',w:W.C},
+    {n:'Fire Resistance',u:'',w:W.C},
+    {n:'Lightning Resistance',u:'',w:W.C},
+    {n:'Poison Resistance',u:'',w:W.C},
+    {n:'Shadow Resistance',u:'',w:W.C},
+    {n:'Physical Resistance',u:'',w:W.C},
+  ],
+  weapon:[
+    {n:'Dexterity',u:'',w:W.S},
+    {n:'Critical Strike Damage',u:'%',w:W.S},
+    {n:'Vulnerable Damage',u:'%',w:W.S},
+    {n:'Damage to Elites',u:'%',w:W.A},
+    {n:'Damage',u:'%',w:W.A},
+    {n:'Resource Cost Reduction',u:'%',w:W.A},
+    {n:'Maximum Life',u:'',w:W.A},
+    {n:'Primary Resource',u:'%',w:W.A},
+    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
+    {n:'Vigor on Kill',u:'',w:W.B},
+    {n:'Lucky Hit Chance',u:'%',w:W.B},
+    {n:'Life on Hit',u:'',w:W.C},
+    {n:'Life on Kill',u:'',w:W.C},
+    {n:'Overpower Damage',u:'%',w:W.X},
+    {n:'Damage Over Time',u:'%',w:W.X},
+  ],
+  amulet:[
+    {n:'Dexterity',u:'',w:W.S},
+    {n:'Critical Strike Damage',u:'%',w:W.S},
+    {n:'Critical Strike Chance',u:'%',w:W.S},
+    {n:'All Stats',u:'',w:W.A},
+    {n:'Maximum Resource',u:'',w:W.A},
+    {n:'Resource Cost Reduction',u:'%',w:W.A},
+    {n:'Cooldown Reduction',u:'%',w:W.A},
+    {n:'Damage',u:'%',w:W.A},
+    {n:'Attack Speed',u:'%',w:W.A},
+    {n:'Maximum Life',u:'',w:W.A},
+    {n:'Movement Speed',u:'%',w:W.B},
+    {n:'Lucky Hit Chance',u:'%',w:W.B},
+    {n:'Resistance to All Elements',u:'',w:W.B},
+    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
+    {n:'Vigor on Kill',u:'',w:W.B},
+    {n:'+Ranks Passive Skills',u:'',w:W.B},
+    {n:'Life per 5 Seconds',u:'',w:W.C},
+    {n:'Life on Kill',u:'',w:W.C},
+    {n:'Life on Hit',u:'',w:W.C},
+    {n:'Healing Received',u:'%',w:W.C},
+    {n:'Cold Resistance',u:'',w:W.C},
+    {n:'Fire Resistance',u:'',w:W.C},
+    {n:'Lightning Resistance',u:'',w:W.C},
+    {n:'Poison Resistance',u:'',w:W.C},
+    {n:'Shadow Resistance',u:'',w:W.C},
+    {n:'Physical Resistance',u:'',w:W.C},
+  ],
+  ring1:[
+    {n:'Critical Strike Chance',u:'%',w:W.S},
+    {n:'Critical Strike Damage',u:'%',w:W.S},
+    {n:'Vulnerable Damage',u:'%',w:W.S},
+    {n:'Dexterity',u:'',w:W.S},
+    {n:'Attack Speed',u:'%',w:W.A},
+    {n:'Damage',u:'%',w:W.A},
+    {n:'Cooldown Reduction',u:'%',w:W.A},
+    {n:'Resource Cost Reduction',u:'%',w:W.A},
+    {n:'Maximum Life',u:'',w:W.A},
+    {n:'Lucky Hit Chance',u:'%',w:W.B},
+    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
+    {n:'Resistance to All Elements',u:'',w:W.B},
+    {n:'Vigor on Kill',u:'',w:W.B},
+    {n:'Life per 5 Seconds',u:'',w:W.C},
+    {n:'Life on Kill',u:'',w:W.C},
+    {n:'Life on Hit',u:'',w:W.C},
+    {n:'Healing Received',u:'%',w:W.C},
+    {n:'Cold Resistance',u:'',w:W.C},
+    {n:'Fire Resistance',u:'',w:W.C},
+    {n:'Lightning Resistance',u:'',w:W.C},
+    {n:'Poison Resistance',u:'',w:W.C},
+    {n:'Shadow Resistance',u:'',w:W.C},
+    {n:'Physical Resistance',u:'',w:W.C},
+    {n:'Overpower Damage',u:'%',w:W.X},
+    {n:'Damage Over Time',u:'%',w:W.X},
+  ],
+  ring2:[
+    {n:'Critical Strike Chance',u:'%',w:W.S},
+    {n:'Critical Strike Damage',u:'%',w:W.S},
+    {n:'Vulnerable Damage',u:'%',w:W.S},
+    {n:'Dexterity',u:'',w:W.S},
+    {n:'Attack Speed',u:'%',w:W.A},
+    {n:'Damage',u:'%',w:W.A},
+    {n:'Cooldown Reduction',u:'%',w:W.A},
+    {n:'Resource Cost Reduction',u:'%',w:W.A},
+    {n:'Maximum Life',u:'',w:W.A},
+    {n:'Lucky Hit Chance',u:'%',w:W.B},
+    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
+    {n:'Resistance to All Elements',u:'',w:W.B},
+    {n:'Vigor on Kill',u:'',w:W.B},
+    {n:'Life per 5 Seconds',u:'',w:W.C},
+    {n:'Life on Kill',u:'',w:W.C},
+    {n:'Life on Hit',u:'',w:W.C},
+    {n:'Healing Received',u:'%',w:W.C},
+    {n:'Cold Resistance',u:'',w:W.C},
+    {n:'Fire Resistance',u:'',w:W.C},
+    {n:'Lightning Resistance',u:'',w:W.C},
+    {n:'Poison Resistance',u:'',w:W.C},
+    {n:'Shadow Resistance',u:'',w:W.C},
+    {n:'Physical Resistance',u:'',w:W.C},
+    {n:'Overpower Damage',u:'%',w:W.X},
+    {n:'Damage Over Time',u:'%',w:W.X},
+  ],
+};
+
+// Stat priority reference per slot (top 5-6 stats to look for)
+const GC_REF = {
+  helm:['Maximum Life','Cooldown Reduction','Dexterity','Maximum Resource','Resistance to All Elements'],
+  chest:['Maximum Life','Dexterity','Armor','Resource Cost Reduction','Resistance to All Elements'],
+  gloves:['+Ranks Quill Volley','Critical Strike Chance','Attack Speed','Dexterity','Critical Strike Damage','Vulnerable Damage'],
+  pants:['Maximum Life','Dexterity','Armor','Resistance to All Elements'],
+  boots:['Movement Speed','Dexterity','Maximum Life','Resistance to All Elements'],
+  weapon:['DPS (Damage per Second)','Dexterity','Critical Strike Damage','Vulnerable Damage','Attacks per Second','Resource Cost Reduction'],
+  amulet:['All Stats','Critical Strike Damage','Maximum Resource','Resource Cost Reduction','Cooldown Reduction'],
+  ring1:['Critical Strike Chance','Critical Strike Damage','Vulnerable Damage','Attack Speed','Damage'],
+  ring2:['Critical Strike Chance','Critical Strike Damage','Resource Cost Reduction','Attack Speed','Damage'],
+};
+
+const GC_LABELS = {
+  helm:'Helm',chest:'Chest',gloves:'Gloves',pants:'Pants',boots:'Boots',
+  weapon:'Weapon',amulet:'Amulet',ring1:'Ring 1',ring2:'Ring 2'
+};
+
+let gcSlot='helm';
+
+function initGC(){
+  const bar=document.getElementById('gcSlotBar');
+  bar.innerHTML=Object.keys(GC_STATS).map(k=>`<button class="gc-sbtn${k===gcSlot?' on':''}" onclick="selectGCSlot('${k}',this)">${GC_LABELS[k]}</button>`).join('');
+  renderGCAll();
+  loadEquipped();
+}
+
+function selectGCSlot(s,btn){
+  gcSlot=s;
+  document.querySelectorAll('.gc-sbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderGCAll();
+  loadEquipped();
+  document.getElementById('gcResults').classList.remove('show');
+}
+
+function filterAffixes(pre,query){
+  const q=query.toLowerCase().trim();
+  document.querySelectorAll(`.gc-stat-row[data-col="${pre}"]`).forEach(row=>{
+    const name=row.getAttribute('data-affix')||'';
+    const chk=row.querySelector('.gc-stat-check');
+    if(!q||name.includes(q)||chk?.checked){
+      row.style.display='';
+    }else{
+      row.style.display='none';
+    }
+  });
+}
+function toggleTemper(slot,t,row){
+  const chk=document.getElementById('tmp_'+slot+'_'+t);
+  chk.checked=!chk.checked;
+  row.classList.toggle('done',chk.checked);
+}
+function toggleStat(pre,name,row){
+  const chk=document.getElementById(pre+'_chk_'+name);
+  chk.checked=!chk.checked;
+  document.getElementById(pre+'_v_'+name).disabled=!chk.checked;
+  row.classList.toggle('checked',chk.checked);
+  if(chk.checked) document.getElementById(pre+'_v_'+name).focus();
+}
+function renderGCAll(){
+  renderGCRef();
+  renderGCCol('Eq');
+  renderGCCol('Nd');
+}
+
+function renderGCRef(){
+  const ref=GC_REF[gcSlot]||[];
+  const box=document.getElementById('gcRefBox');
+  box.innerHTML=`<div class="gc-ref">
+    <div class="gc-ref-title">Stat Priority for ${GC_LABELS[gcSlot]}</div>
+    <div class="gc-ref-stats">${ref.map((s,i)=>`<span class="gc-ref-stat">${s}</span>${i<ref.length-1?'<span class="gc-ref-arrow">›</span>':''}`).join('')}</div>
+  </div>`;
+}
+
+function renderGCCol(side){
+  const pre=side==='Eq'?'eq':'nd';
+  const metaEl=document.getElementById(`gc${side}Meta`);
+  const statsEl=document.getElementById(`gc${side}Stats`);
+  metaEl.innerHTML=`<div class="gc-field"><div class="gc-label">Item Power</div><input type="number" class="gc-input" id="${pre}_ip" placeholder="e.g. 696"></div>
+    <div class="gc-field"><div class="gc-label">Aspect / Unique Name</div><input type="text" class="gc-input" id="${pre}_aspect" placeholder="e.g. Rebounding, Rod of Kepeleke"></div>
+    <div class="gc-field"><div class="gc-label">Unique Power?</div><select class="gc-select" id="${pre}_up"><option value="0">None (Legendary)</option><option value="80">Build-Defining (QV/Vigor related)</option><option value="25">Nice to Have (generic damage/defense)</option><option value="-20">Not Relevant to QV (skip)</option></select></div>`;
+  const stats=GC_STATS[gcSlot]||[];
+  const inherent=GC_INHERENT[gcSlot]||[];
+  const tierN=w=>w>=10?'S':w>=7?'A':w>=4?'B':w>=2?'C':'TRASH';
+  const tierC=w=>w>=10?'s':w>=7?'a':w>=4?'b':w>=2?'c':'x';
+  let html='';
+  if(inherent.length){
+    html+='<div class="gc-section-label">INHERENT STATS</div>'+inherent.map(s=>`<div class="gc-stat-row" onclick="toggleStat('${pre}','${s.n}',this)">
+    <input type="checkbox" class="gc-stat-check" id="${pre}_chk_${s.n}">
+    <span class="gc-stat-name">${s.n}</span>
+    <span class="gc-stat-tier ${tierC(s.w)}">${tierN(s.w)}</span>
+    <input type="number" class="gc-stat-input" id="${pre}_v_${s.n}" disabled placeholder="0" step="any" onclick="event.stopPropagation()">
+    <span class="gc-stat-unit">${s.u}</span>
+  </div>`).join('');
+  }
+  html+=`<div class="gc-section-label" style="margin-top:12px">AFFIXES</div><input type="text" class="gc-search" id="${pre}_search" placeholder="Search affixes..." oninput="filterAffixes('${pre}',this.value)">`+stats.map(s=>`<div class="gc-stat-row" data-col="${pre}" data-affix="${s.n.toLowerCase()}" onclick="toggleStat('${pre}','${s.n}',this)">
+    <input type="checkbox" class="gc-stat-check" id="${pre}_chk_${s.n}">
+    <span class="gc-stat-name">${s.n}</span>
+    <span class="gc-stat-tier ${tierC(s.w)}">${tierN(s.w)}</span>
+    <input type="number" class="gc-stat-input" id="${pre}_v_${s.n}" disabled placeholder="0" step="any" onclick="event.stopPropagation()">
+    <span class="gc-stat-unit">${s.u}</span>
+  </div>`).join('');
+  statsEl.innerHTML=html;
+}
+
+function getScore(pre){
+  const stats=GC_STATS[gcSlot]||[];
+  const inherent=GC_INHERENT[gcSlot]||[];
+  const allStats=[...inherent,...stats];
+  let score=0,bd=[];
+  const ip=parseFloat(document.getElementById(`${pre}_ip`)?.value)||0;
+  if(ip>0){const s=Math.max(0,(ip-600)*.1);score+=s;bd.push({n:`Item Power (${ip})`,v:s,r:ip});}
+  const up=parseFloat(document.getElementById(`${pre}_up`)?.value)||0;
+  if(up){score+=up;bd.push({n:'Unique Power',v:up,r:up});}
+  allStats.forEach(s=>{
+    const chk=document.getElementById(`${pre}_chk_${s.n}`);
+    const val=document.getElementById(`${pre}_v_${s.n}`);
+    if(chk?.checked){
+      const v=parseFloat(val?.value)||0;
+      if(v){
+        let norm=s.u==='%'?v:(s.n.includes('Life')?v/20:s.n.includes('DPS')?v/15:s.n.includes('Dex')||s.n.includes('Stats')||s.n.includes('Strength')||s.n.includes('Intelligence')?v/5:s.n.includes('Ranks')?v*8:s.n.includes('Armor')?v/30:s.n.includes('Resist')?v/40:v/10);
+        const wt=norm*(s.w/10);
+        score+=wt;bd.push({n:s.n,v:wt,r:v,u:s.u,w:s.w});
+      }
+    }
+  });
+  return{score:Math.round(score*10)/10,bd};
+}
+
+function runCompare(){
+  const eq=getScore('eq'),nd=getScore('nd');
+  const diff=nd.score-eq.score;
+  const pct=eq.score>0?Math.round((diff/eq.score)*100):(nd.score>0?100:0);
+  let verdict,vc;
+  if(diff>5){verdict='SWAP';vc='swap';}else if(diff<-5){verdict='KEEP';vc='keep';}else{verdict='SITUATIONAL';vc='sit';}
+
+  const allN=new Set();eq.bd.forEach(b=>allN.add(b.n));nd.bd.forEach(b=>allN.add(b.n));
+  const gains=[],losses=[];
+  allN.forEach(n=>{
+    const eV=eq.bd.find(b=>b.n===n)?.v||0,nV=nd.bd.find(b=>b.n===n)?.v||0;
+    const eR=eq.bd.find(b=>b.n===n)?.r||0,nR=nd.bd.find(b=>b.n===n)?.r||0;
+    const u=eq.bd.find(b=>b.n===n)?.u||nd.bd.find(b=>b.n===n)?.u||'';
+    if(nV>eV+.5)gains.push({n,d:Math.round((nR-eR)*10)/10,u,sd:nV-eV});
+    else if(eV>nV+.5)losses.push({n,d:Math.round((eR-nR)*10)/10,u,sd:eV-nV});
+  });
+  gains.sort((a,b)=>b.sd-a.sd);losses.sort((a,b)=>b.sd-a.sd);
+
+  let reason='',action='';
+  if(vc==='swap'){
+    reason=`New drop scores ${Math.abs(pct)}% higher.${gains.length?' Key gains: '+gains.slice(0,3).map(g=>g.n).join(', ')+'.':''}`;
+    action='Equip the new drop. Extract the aspect from your old piece if it has a good roll.';
+  }else if(vc==='keep'){
+    reason=`Equipped piece scores ${Math.abs(pct)}% higher.${losses.length?' You\'d lose: '+losses.slice(0,3).map(l=>l.n).join(', ')+'.':''}`;
+    action='Salvage or stash the drop for another build.';
+  }else{
+    reason=`Within 5% of each other (${pct>=0?'+':''}${pct}%). ${gains.length?'Gains: '+gains.slice(0,2).map(g=>g.n).join(', ')+'.':''} ${losses.length?'Losses: '+losses.slice(0,2).map(l=>l.n).join(', ')+'.':''}`;
+    action='Try both in a few runs and see which feels better. Check if the new piece enables a Masterwork target you need.';
+  }
+
+  const eqAspect=document.getElementById('eq_aspect')?.value||'';
+  const ndAspect=document.getElementById('nd_aspect')?.value||'';
+  const aspectLine=(eqAspect||ndAspect)?`<div style="font-size:13px;color:var(--text2);margin-top:6px">${eqAspect?'Equipped: <strong>'+eqAspect+'</strong>':''}${eqAspect&&ndAspect?' vs ':''} ${ndAspect?'New: <strong>'+ndAspect+'</strong>':''}</div>`:'';
+
+  const r=document.getElementById('gcResults');
+  r.innerHTML=`<div class="gc-verdict ${vc}"><div class="gc-verdict-word">${verdict}</div>
+    <div class="gc-verdict-score">Equipped: ${eq.score} pts / New Drop: ${nd.score} pts (${pct>=0?'+':''}${pct}%)</div>${aspectLine}
+    <div class="gc-verdict-reason">${reason}</div></div>
+    <div class="gc-diff-grid"><div class="gc-diff-col gains"><h3>Gains</h3>${gains.length?gains.map(g=>`<div class="gc-diff-row"><span>${g.n}</span><span class="gc-diff-val pos">+${g.d}${g.u}</span></div>`).join(''):'<div style="font-size:13px;color:var(--text3)">None</div>'}</div>
+    <div class="gc-diff-col losses"><h3>Losses</h3>${losses.length?losses.map(l=>`<div class="gc-diff-row"><span>${l.n}</span><span class="gc-diff-val neg">-${l.d}${l.u}</span></div>`).join(''):'<div style="font-size:13px;color:var(--text3)">None</div>'}</div></div>
+    <div class="gc-action"><div class="gc-action-label">What To Do</div><div class="gc-action-text">${action}</div></div>
+    <div class="gc-equip-btns">
+      <button class="gc-equip-btn swap" onclick="saveEquipped('nd')">⬆ Equip New Drop</button>
+      <button class="gc-equip-btn keep" onclick="saveEquipped('eq')">✓ Keep Existing</button>
+    </div>`;
+  r.classList.add('show');
+  r.scrollIntoView({behavior:'smooth'});
+}
+
+function captureCol(pre){
+  const stats=GC_STATS[gcSlot]||[];
+  const inherent=GC_INHERENT[gcSlot]||[];
+  const allStats=[...inherent,...stats];
+  const data={slot:gcSlot,ip:'',aspect:'',up:'0',affixes:{}};
+  data.ip=document.getElementById(`${pre}_ip`)?.value||'';
+  data.aspect=document.getElementById(`${pre}_aspect`)?.value||'';
+  data.up=document.getElementById(`${pre}_up`)?.value||'0';
+  allStats.forEach(s=>{
+    const chk=document.getElementById(`${pre}_chk_${s.n}`);
+    const val=document.getElementById(`${pre}_v_${s.n}`);
+    if(chk?.checked){
+      data.affixes[s.n]=val?.value||'0';
+    }
+  });
+  return data;
+}
+
+function saveEquipped(pre){
+  const data=captureCol(pre);
+  const saved=JSON.parse(localStorage.getItem('qv_equipped')||'{}');
+  saved[gcSlot]=data;
+  localStorage.setItem('qv_equipped',JSON.stringify(saved));
+  // Reload columns: populate eq with saved, clear nd
+  renderGCAll();
+  loadEquipped();
+  // Clear results
+  const r=document.getElementById('gcResults');
+  r.innerHTML=`<div class="gc-saved-msg">✓ Saved to Equipped for ${GC_LABELS[gcSlot]}. New Drop column cleared for your next comparison.</div>`;
+  r.classList.add('show');
+}
+
+function loadEquipped(){
+  const saved=JSON.parse(localStorage.getItem('qv_equipped')||'{}');
+  const data=saved[gcSlot];
+  if(!data) return;
+  const pre='eq';
+  // Set meta fields
+  const ipEl=document.getElementById(`${pre}_ip`);
+  if(ipEl&&data.ip) ipEl.value=data.ip;
+  const aspEl=document.getElementById(`${pre}_aspect`);
+  if(aspEl&&data.aspect) aspEl.value=data.aspect;
+  const upEl=document.getElementById(`${pre}_up`);
+  if(upEl&&data.up) upEl.value=data.up;
+  // Set affixes
+  if(data.affixes){
+    Object.entries(data.affixes).forEach(([name,val])=>{
+      const chk=document.getElementById(`${pre}_chk_${name}`);
+      const inp=document.getElementById(`${pre}_v_${name}`);
+      const row=chk?.closest('.gc-stat-row');
+      if(chk){chk.checked=true;if(row)row.classList.add('checked');}
+      if(inp){inp.disabled=false;inp.value=val;}
+    });
+  }
+}
+
+// ======= PROGRESS =======
+const PROGRESS=[
+  {pri:'Step 1',task:'Get Rod of Kepeleke (Quarterstaff)',how:'World Boss drops, Helltide chests, Purveyor gambling. The entire build revolves around this weapon. Nothing else matters until you have it.'},
+  {pri:'Step 2',task:'Get Rebounding Aspect',how:'Random legendary drop or Codex of Power (Offensive category). Check your Codex first, you may already have it unlocked. Imprint it on your weapon or Ring 1.'},
+  {pri:'Step 3',task:'Get Ring of the Midnight Sun',how:'Target farm: Varshan or Grigoire boss fights. This enables the infinite Vigor engine. Without it, Rod of Kepeleke drains you dry.'},
+  {pri:'Step 4',task:'Hit 100%+ Resource Generation',how:'Required for Ring of Midnight Sun to fully restore Vigor every hit. Stack from: Intelligence, Vigorous passive ranks, Paragon nodes (Sapping board), jewelry Resource Generation tempers.'},
+  {pri:'Step 5',task:'Find Legendary Gloves with +Ranks Quill Volley',how:'Gamble at Purveyor (Gloves tab) or farm Helltide chests. Need +2 or +3 ranks. This is your single biggest DPS affix outside of uniques.'},
+  {pri:'Step 6',task:'Get Harmony of Ebewaka (Helm)',how:'Target farm: Beast in the Ice boss fight. Huge damage multiplier from combining 3 spirit types. Big upgrade but the build works without it.'},
+  {pri:'Step 7',task:"Get Locran's Talisman (Amulet)",how:'Random unique drop or Purveyor gambling (Amulet tab). Gives Critical Strike Chance per point of Vigor. Massive when combined with Rod of Kepeleke.'},
+  {pri:'Step 8',task:'Get POC + XAN runes for Chest',how:'Runes drop from Undercity runs, Helltides, and open world content. POC is a Ritual rune, XAN is an Invocation rune. Socket both into your Chest armor.'},
+  {pri:'Step 9',task:'Get AHU + QAX runes for Pants',how:'Same rune sources. AHU is Ritual, QAX is Invocation. These go in your Pants. You now have your 2 active runeword pairs.'},
+  {pri:'Step 10',task:'Socket gems in Helm + Weapon (2x each)',how:'Helm: 2x Grand Ruby (+Maximum Life). Weapon: 2x Grand Topaz (+Basic Skill Damage). Jewelry: Grand Skull (+Armor). Visit the Jeweler.'},
+  {pri:'Step 11',task:'Temper all slots with Best recommendation',how:'Visit the Blacksmith. Check Build Guide tab for the exact temper and category per slot. Reroll until you hit the right affix, then roll for a high value.'},
+  {pri:'Step 12',task:'Get Tassets of the Dawning Sky (Pants)',how:'Random unique drop. Provides reactive resistance to incoming damage types. Nice survivability boost but not build-defining.'},
+  {pri:'Step 13',task:'Get Path of the Emissary (Boots)',how:'Kill Lord Zir boss. Invokes Core Skill from Eagle Spirit Hall as you move. Great for clear speed once the core build is online.'},
+  {pri:'Step 14',task:'Masterwork priority pieces (Weapon first)',how:'Requires Pit materials. Weapon first, then Gloves, then Rings. Target Critical Strike Damage or Vulnerable Damage for the 12x multiplier on the 4th upgrade.'},
+];
+
+function renderProgress(){
+  const el=document.getElementById('progressList');
+  const saved=JSON.parse(localStorage.getItem('qv_progress2')||'{}');
+
+  let html='<div class="prog-section">Do These In Order</div>';
+  PROGRESS.forEach((p,i)=>{
+    const done=saved[i]||false;
+    html+=`<div class="prog-item${done?' done':''}" onclick="toggleProg(${i})">
+      <div class="prog-check">${done?'✓':''}</div>
+      <div class="prog-content">
+        <div class="prog-priority">${p.pri}</div>
+        <div class="prog-task">${p.task}</div>
+        <div class="prog-how">${p.how}</div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML=html;
+}
+
+function toggleProg(i){
+  const saved=JSON.parse(localStorage.getItem('qv_progress2')||'{}');
+  saved[i]=!saved[i];
+  localStorage.setItem('qv_progress2',JSON.stringify(saved));
+  renderProgress();
+}
+
+// ======= INIT =======
+renderBuild();
+initGC();
+renderProgress();
+</script>
+</body>
+</html>
