@@ -1127,29 +1127,106 @@ function renderSkills(){
         <strong style="color:var(--gold);font-size:12px">KEY TIPS</strong>`;
   SKILL_ROTATION.tips.forEach(t=>{h+=`<p style="font-size:12px;color:var(--text2);margin:4px 0">• ${t}</p>`;});
   h+=`</div></div></div>`;
-  // Leveling Order
-  h+=`<div class="callout" style="background:var(--blue-bg);border-left:3px solid var(--blue);cursor:pointer" onclick="this.querySelector('.lv-body').classList.toggle('hidden')">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <strong style="color:var(--blue)">Leveling Skill Order (1-60)</strong>
-      <span style="color:var(--text3);font-size:12px">tap to expand</span>
+  // Leveling Order - point by point
+  const LVL_ORDER=[
+    {lvl:2,skill:'Quill Volley',rank:'1/5',note:'Your main skill from minute one.'},
+    {lvl:3,skill:'Enhanced Quill Volley',rank:'Upgrade',note:'More feathers per volley.'},
+    {lvl:4,skill:'Advantageous Quill Volley',rank:'Upgrade',note:'Vulnerable synergy. Pick this over Rampant.'},
+    {lvl:5,skill:'Quill Volley',rank:'2/5',note:''},
+    {lvl:6,skill:'Quill Volley',rank:'3/5',note:''},
+    {lvl:7,skill:'Quill Volley',rank:'4/5',note:''},
+    {lvl:8,skill:'Quill Volley',rank:'5/5',note:'Max your damage skill first.'},
+    {lvl:9,skill:'Ravager',rank:'1/5',note:'Mobility + extra hits.'},
+    {lvl:10,skill:'Enhanced Ravager',rank:'Upgrade',note:''},
+    {lvl:11,skill:'Replenishing Ravager',rank:'Upgrade',note:'Extra hits vs elites. Big for bosses.'},
+    {lvl:12,skill:'Ravager',rank:'2/5',note:''},
+    {lvl:13,skill:'Ravager',rank:'3/5',note:''},
+    {lvl:14,skill:'Ravager',rank:'4/5',note:''},
+    {lvl:15,skill:'⭐ SPIRIT HALL UNLOCKS',rank:'—',note:'Set Eagle primary, Jaguar secondary.'},
+    {lvl:15,skill:'Ravager',rank:'5/5',note:'Max it.'},
+    {lvl:16,skill:'Vortex',rank:'1/5',note:'Pull enemies together.'},
+    {lvl:17,skill:'Vortex',rank:'2/5',note:'Extra point for scaling.'},
+    {lvl:18,skill:'Mirage',rank:'1/3',note:'Passive. Start stacking.'},
+    {lvl:19,skill:'Mirage',rank:'2/3',note:''},
+    {lvl:20,skill:'Mirage',rank:'3/3',note:'Maxed.'},
+    {lvl:21,skill:'Unrestrained Power',rank:'1/3',note:'Core damage passive.'},
+    {lvl:22,skill:'Unrestrained Power',rank:'2/3',note:''},
+    {lvl:23,skill:'Unrestrained Power',rank:'3/3',note:'Maxed.'},
+    {lvl:24,skill:'Focal Point',rank:'1/3',note:'Focus skill synergy.'},
+    {lvl:25,skill:'Focal Point',rank:'2/3',note:''},
+    {lvl:26,skill:'Focal Point',rank:'3/3',note:'Maxed.'},
+    {lvl:27,skill:'Apex',rank:'1/3',note:'Big multiplier passive.'},
+    {lvl:28,skill:'Apex',rank:'2/3',note:''},
+    {lvl:29,skill:'Apex',rank:'3/3',note:'Maxed. Core cluster done.'},
+    {lvl:30,skill:'Armored Hide',rank:'1/5',note:'Main defensive. 100% block.'},
+    {lvl:31,skill:'Enhanced Armored Hide',rank:'Upgrade',note:''},
+    {lvl:32,skill:'Reinforced Armored Hide',rank:'Upgrade',note:'Pick Reinforced for Resolve.'},
+    {lvl:33,skill:'Counterattack',rank:'1/5',note:'Passive dodge chance.'},
+    {lvl:34,skill:'Enhanced Counterattack',rank:'Upgrade',note:''},
+    {lvl:35,skill:'Reinforced Counterattack',rank:'Upgrade',note:'Pick Reinforced.'},
+    {lvl:36,skill:'Scourge',rank:'1/5',note:'Poison + Vigor regen + CC.'},
+    {lvl:37,skill:'Enhanced Scourge',rank:'Upgrade',note:''},
+    {lvl:38,skill:'Adaptable Scourge',rank:'Upgrade',note:'Pick Adaptable for healing.'},
+    {lvl:39,skill:'Endurance',rank:'1/3',note:'Defensive passive.'},
+    {lvl:40,skill:'Endurance',rank:'2/3',note:''},
+    {lvl:41,skill:'Endurance',rank:'3/3',note:'Maxed.'},
+    {lvl:42,skill:'Perseverance',rank:'1/3',note:'DR scaling.'},
+    {lvl:43,skill:'Perseverance',rank:'2/3',note:''},
+    {lvl:44,skill:'Perseverance',rank:'3/3',note:'Maxed.'},
+    {lvl:45,skill:'Auspicious',rank:'1/3',note:'Lucky Hit synergy.'},
+    {lvl:46,skill:'Auspicious',rank:'2/3',note:''},
+    {lvl:47,skill:'Auspicious',rank:'3/3',note:'Maxed.'},
+    {lvl:48,skill:'Patient Guard',rank:'1/3',note:'Resolve stacking.'},
+    {lvl:49,skill:'Patient Guard',rank:'2/3',note:''},
+    {lvl:50,skill:'Patient Guard',rank:'3/3',note:'Maxed. Defensive cluster done.'},
+    {lvl:51,skill:'Velocity',rank:'1/3',note:'Attack Speed scaling. Huge.'},
+    {lvl:52,skill:'Velocity',rank:'2/3',note:''},
+    {lvl:53,skill:'Velocity',rank:'3/3',note:'Maxed.'},
+    {lvl:54,skill:'Vigorous',rank:'1/3',note:'Vigor management.'},
+    {lvl:55,skill:'Vigorous',rank:'2/3',note:''},
+    {lvl:56,skill:'Vigorous',rank:'3/3',note:'Maxed.'},
+    {lvl:57,skill:'Prodigy\\'s Tempo',rank:'1/1',note:'KEY. Resets cooldowns on 3-cast combos.'},
+    {lvl:58,skill:'The Hunter',rank:'1/1',note:'Ultimate. Burst + Ferocity.'},
+    {lvl:59,skill:'Enhanced The Hunter',rank:'Upgrade',note:''},
+    {lvl:60,skill:'Supremacy',rank:'1/3',note:'Damage when above resource.'},
+    {lvl:'R1',skill:'Supremacy',rank:'2/3',note:'Renown/Season Rank point.'},
+    {lvl:'R2',skill:'Supremacy',rank:'3/3',note:'Maxed.'},
+    {lvl:'R3',skill:'Resolution',rank:'1/3',note:'Resolve = damage.'},
+    {lvl:'R4',skill:'Resolution',rank:'2/3',note:''},
+    {lvl:'R5',skill:'Resolution',rank:'3/3',note:'Maxed.'},
+    {lvl:'R6',skill:'Armored Hide',rank:'2/5',note:'Extra duration.'},
+    {lvl:'R7',skill:'Armored Hide',rank:'3/5',note:''},
+    {lvl:'R8',skill:'Counterattack',rank:'2/5',note:'More dodge scaling.'},
+    {lvl:'R9',skill:'Counterattack',rank:'3/5',note:''},
+    {lvl:'R10',skill:'Scourge',rank:'2/5',note:'More poison.'},
+    {lvl:'R11',skill:'Scourge',rank:'3/5',note:''},
+    {lvl:'R12',skill:'Vital Strikes',rank:'1/1',note:'🔥 KEY PASSIVE. Every 4th hit = Vulnerable. Build online.'}
+  ];
+  h+=`<div class="callout" style="background:var(--blue-bg);border-left:3px solid var(--blue)">
+    <div style="cursor:pointer" onclick="document.getElementById('lvlBody').classList.toggle('hidden')">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong style="color:var(--blue)">📋 Skill Point Order (1-60 + Renown)</strong>
+        <span style="color:var(--text3);font-size:12px">tap to expand</span>
+      </div>
     </div>
-    <div class="lv-body hidden" style="margin-top:10px;font-size:13px" onclick="event.stopPropagation()">
-      <p style="color:var(--text2);margin-bottom:8px">Spend points in this order as you level. Adjust if you find key uniques early.</p>
-      <div style="display:grid;gap:4px">
-        <div style="color:var(--text2)"><strong style="color:var(--blue)">Lvl 2-4:</strong> Quill Volley 1 → Enhanced QV → Advantageous QV</div>
-        <div style="color:var(--text2)"><strong style="color:var(--blue)">Lvl 5-9:</strong> QV to 5/5 → Ravager 1 → Enhanced Ravager</div>
-        <div style="color:var(--text2)"><strong style="color:var(--blue)">Lvl 10-14:</strong> Replenishing Ravager → Ravager to 5/5</div>
-        <div style="color:var(--text2)"><strong style="color:var(--blue)">Lvl 15:</strong> <em>Spirit Hall unlocks! Set Eagle primary, Jaguar secondary</em></div>
-        <div style="color:var(--text2)"><strong style="color:var(--blue)">Lvl 15-20:</strong> Vortex 1 → Mirage 3/3 → Unrestrained Power 1</div>
-        <div style="color:var(--text2)"><strong style="color:var(--blue)">Lvl 21-27:</strong> Unrestrained Power 3/3 → Focal Point 3/3 → Apex 1</div>
-        <div style="color:var(--text2)"><strong style="color:var(--blue)">Lvl 28-33:</strong> Apex 3/3 → Armored Hide 1 → Enhanced AH → Reinforced AH</div>
-        <div style="color:var(--text2)"><strong style="color:var(--blue)">Lvl 34-38:</strong> Counterattack 1 → Enhanced CA → Reinforced CA → Scourge 1 → Enhanced Scourge</div>
-        <div style="color:var(--text2)"><strong style="color:var(--blue)">Lvl 39-44:</strong> Adaptable Scourge → Endurance 3/3 → Perseverance 3/3</div>
-        <div style="color:var(--text2)"><strong style="color:var(--blue)">Lvl 45-50:</strong> Auspicious 3/3 → Patient Guard 3/3 → Velocity 1</div>
-        <div style="color:var(--text2)"><strong style="color:var(--blue)">Lvl 51-55:</strong> Velocity 3/3 → Vigorous 3/3 → Prodigy's Tempo</div>
-        <div style="color:var(--text2)"><strong style="color:var(--blue)">Lvl 56-59:</strong> The Hunter → Enhanced Hunter → Supremacy 2/3</div>
-        <div style="color:var(--text2)"><strong style="color:var(--blue)">Renown pts:</strong> Supremacy 3/3 → Resolution 3/3 → Vital Strikes</div>
-        <div style="color:var(--text2)"><strong style="color:var(--blue)">Endgame:</strong> <em>Switch Spirit Hall to Gorilla primary, Jaguar secondary once you have Harmony of Ebewaka</em></div>
+    <div id="lvlBody" class="hidden" style="margin-top:10px">
+      <p style="color:var(--text2);font-size:12px;margin-bottom:8px">Every single skill point, in order. 59 from leveling + 12 from Renown/Season Rank = 71 total.</p>
+      <div style="display:grid;gap:2px">`;
+  LVL_ORDER.forEach(p=>{
+    let isSpecial=String(p.skill).includes('⭐')||String(p.skill).includes('🔥')||p.rank==='—';
+    let lvlColor=String(p.lvl).startsWith('R')?'var(--gold)':'var(--blue)';
+    let bg=isSpecial?'rgba(232,184,76,.1)':'transparent';
+    let noteSpan=p.note?`<span style="color:var(--text3);font-size:11px"> ${p.note}</span>`:'';
+    h+=`<div style="display:flex;align-items:baseline;gap:8px;padding:3px 6px;border-radius:4px;background:${bg};font-size:13px">
+      <span style="color:${lvlColor};font-weight:700;min-width:28px">${p.lvl}</span>
+      <span style="color:var(--text)">${p.skill}</span>
+      <span style="color:var(--text2);font-size:11px">${p.rank}</span>
+      ${noteSpan}
+    </div>`;
+  });
+  h+=`</div>
+      <div style="margin-top:10px;padding:8px;background:var(--card);border-radius:6px;font-size:12px;color:var(--text2)">
+        <strong style="color:var(--blue)">⚡ Endgame Switch:</strong> Once you find <strong>Harmony of Ebewaka</strong> helmet, switch Spirit Hall to <strong>Gorilla primary / Jaguar secondary</strong>.
       </div>
     </div>
   </div>`;
