@@ -93,6 +93,14 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 /* Rune-specific */
 .rune-pair{font-size:16px;font-weight:800;color:var(--white);margin-bottom:3px}
 .rune-pair .rit{color:var(--gold)}.rune-pair .inv{color:var(--purple)}.rune-pair .sep{color:var(--text3);margin:0 5px}
+.rune-fallback{margin-top:12px;padding:10px 12px;background:var(--card);border:1px dashed var(--border);border-radius:8px}
+.rune-fallback-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);margin-bottom:8px}
+.rune-fallback-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px}
+.rune-fallback-row:last-child{border-bottom:none}
+.rune-fallback-have{color:var(--text3);font-weight:600;min-width:80px}
+.rune-fallback-arrow{color:var(--text3)}
+.rune-fallback-use{color:var(--gold);font-weight:700}
+.rune-fallback-desc{color:var(--text2);flex-basis:100%;padding-left:0;margin-top:2px}
 .rune-line{font-size:12px;line-height:1.6;color:var(--text2)}
 .rune-line b{font-weight:600}
 
@@ -128,8 +136,19 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 .gc-input,.gc-select{width:100%;background:var(--card2);border:1px solid var(--border);color:var(--white);padding:9px 12px;border-radius:7px;font-family:inherit;font-size:14px}
 .gc-select{cursor:pointer}
 
-.gc-stat-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;padding:3px 0}
-.gc-stat-check{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.gc-stat-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .1s}
+.gc-stat-row:hover{background:var(--card2)}
+.gc-stat-row.checked{background:rgba(232,132,60,.06)}
+.gc-stat-check{width:22px;height:22px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;pointer-events:none}
+
+/* Temper tracker */
+.temper-track{margin-top:10px;padding:10px 12px;background:var(--card);border:1px solid var(--border);border-radius:8px}
+.temper-track-label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:6px;font-weight:600}
+.temper-track-row{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:13px;color:var(--text2);transition:background .1s}
+.temper-track-row:hover{background:var(--card2)}
+.temper-track-row.done{color:var(--green)}
+.temper-track-row.done span{text-decoration:line-through}
+.temper-chk{width:20px;height:20px;accent-color:var(--green);pointer-events:none;flex-shrink:0}
 .gc-stat-name{font-size:13px;color:var(--text);flex:1;line-height:1.3}
 .gc-stat-tier{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;flex-shrink:0}
 .gc-stat-tier.s{background:var(--teal-bg);color:var(--teal)}.gc-stat-tier.a{background:var(--blue-bg);color:var(--blue)}
@@ -140,6 +159,9 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 .gc-stat-unit{font-size:11px;color:var(--text3);width:14px;flex-shrink:0}
 
 .gc-section-label{font-size:11px;font-weight:700;color:var(--text3);margin:12px 0 6px;padding-top:8px;border-top:1px solid var(--border)}
+.gc-search{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text);font-size:14px;margin-bottom:6px;outline:none;transition:border-color .15s}
+.gc-search:focus{border-color:var(--accent)}
+.gc-search::placeholder{color:var(--text3)}
 
 .gc-compare-btn{display:block;width:100%;max-width:320px;margin:0 auto 20px;padding:14px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:all .15s}
 .gc-compare-btn:hover{background:var(--accent2);transform:translateY(-1px)}
@@ -166,6 +188,12 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 .gc-action{margin-top:16px;padding:14px 18px;background:var(--card2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0}
 .gc-action-label{font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px}
 .gc-action-text{font-size:14px;color:var(--white);line-height:1.5}
+.gc-equip-btns{display:flex;gap:10px;margin-top:16px;justify-content:center;flex-wrap:wrap}
+.gc-equip-btn{padding:12px 24px;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .1s,opacity .1s}
+.gc-equip-btn:hover{transform:scale(1.03);opacity:.9}
+.gc-equip-btn.swap{background:var(--gold);color:#1a1a2e}
+.gc-equip-btn.keep{background:var(--teal);color:#1a1a2e}
+.gc-saved-msg{text-align:center;padding:16px;background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.3);border-radius:10px;color:var(--green);font-size:15px;font-weight:600}
 
 /* ==================== PROGRESS ==================== */
 .prog-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:8px;display:flex;align-items:flex-start;gap:14px;cursor:pointer;user-select:none;transition:all .15s}
@@ -210,14 +238,11 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
   <div class="callout">
     <strong>Runeword limit:</strong> 2 pairs max. Use runes in <em>Chest</em> + <em>Pants</em>. Everything else gets <em>gems</em>.
   </div>
-  <div class="callout" style="margin-bottom:12px;cursor:pointer;border-color:var(--gold-b);background:var(--gold-bg);color:var(--gold)" onclick="document.getElementById('paragonGuide').style.display=document.getElementById('paragonGuide').style.display==='none'?'block':'none'">
-    <strong>📊 Paragon Guide (Lvl 60+)</strong> — tap to expand
+  <div class="callout" style="border-left:3px solid #e8843c;background:rgba(232,132,60,.06)">
+    <strong>Skip These Uniques</strong> (power doesn't help QV build):<br>
+    <span style="color:var(--text2);font-size:13px">Ring of Writhing Moon (Pestilent Swarm) · Shattered Vow (Thorns) · Yen's Blessing (Basic Attack focus) · Scorn of the Earth (Slam skills) · Earthbreaker (Ground Stomp) · Chant of the Sky (Thunderstrike)</span>
   </div>
-  <div id="paragonGuide" style="display:none;margin-bottom:16px">
-    <div class="callout" style="margin-bottom:8px" id="paragonIntro"></div>
-    <div id="paragonBoards"></div>
-    <div id="paragonTips" class="callout" style="margin-top:8px"></div>
-  </div>
+  <div id="paragonGuide"></div>
   <div id="buildSlots"></div>
 </div>
 
@@ -264,7 +289,12 @@ const SLOTS = [
     unique:'Harmony of Ebewaka',uniqueNote:'Huge damage from combining 3 spirit types',
     runes:{
       best:{rit:'CIR',inv:'LUM',ritD:'50 Offering every 2 seconds passively',invD:'+Skill Ranks for 7 seconds at 100 Offering',why:'Passive Offering generation into free skill ranks. Zero effort.'},
-      alt:{rit:'CEM',inv:'GAR',ritD:'75 Offering on Evade',invD:'+7% Critical Strike Chance for 5 seconds at 200 Offering',why:'Evade-triggered Critical Strike boost.'}
+      alt:{rit:'CEM',inv:'GAR',ritD:'75 Offering on Evade',invD:'+7% Critical Strike Chance for 5 seconds at 200 Offering',why:'Evade-triggered Critical Strike boost.'},
+      fallbacks:[
+        {have:'CIR only',use:'CIR + GAR',desc:'Passive Offering into Barrier. Defensive fallback.'},
+        {have:'LUM only',use:'CEM + LUM',desc:'Evade generates Offering for skill ranks.'},
+        {have:'Neither',use:'2x Grand Ruby',desc:'Gem with Max Life until you find the runes.'}
+      ]
     },
     gems:{best:'2x Grand Ruby',bestS:'+Maximum Life',alt:'2x Grand Topaz',altS:'+Basic Skill Damage (Quill Volley counts as Basic)'},
     aspect:{best:'Aspect of Might',bestCat:'Defensive',bestCatC:'cat-def',bestD:'Basic Skills grant 20% Damage Reduction for 6 seconds',
@@ -277,7 +307,12 @@ const SLOTS = [
     id:'chest',name:'Chest',type:'armor',icon:'🛡️',sockets:2,
     runes:{
       best:{rit:'POC',inv:'XAN',ritD:'Burn 5% max resource for Offering',invD:'At 300 Offering: Guaranteed Critical Strike + Overpower',why:'Big burst spike for elites and bosses.'},
-      alt:{rit:'CEM',inv:'GAR',ritD:'75 Offering on Evade',invD:'+7% Critical Strike Chance for 5 seconds',why:'Consistent Critical Strike on Evade if missing POC or XAN.'}
+      alt:{rit:'CEM',inv:'GAR',ritD:'75 Offering on Evade',invD:'+7% Critical Strike Chance for 5 seconds',why:'Consistent Critical Strike on Evade if missing POC or XAN.'},
+      fallbacks:[
+        {have:'POC only',use:'POC + GAR',desc:'Resource burn into Barrier. Defensive until you find XAN.'},
+        {have:'XAN only',use:'CEM + XAN',desc:'Evade into guaranteed Crit + Overpower. Still strong.'},
+        {have:'Neither',use:'2x Grand Ruby',desc:'Gem with Max Life until you find the runes.'}
+      ]
     },
     gems:{best:'2x Grand Ruby',bestS:'+Maximum Life',alt:'2x Grand Amethyst',altS:'+Damage Over Time'},
     aspect:{best:'Aspect of Might',bestCat:'Defensive',bestCatC:'cat-def',bestD:'Basic Skills grant 20% Damage Reduction for 6 seconds',
@@ -299,7 +334,14 @@ const SLOTS = [
     unique:'Tassets of the Dawning Sky',uniqueNote:'Reactive resistance to non-Physical damage',
     runes:{
       best:{rit:'AHU',inv:'QAX',ritD:'Offering on Lucky Hit vs non-Healthy enemies',invD:'Dump resource for up to 100% bonus damage for 1 second',why:'Burst window for finishing elites. Best 2nd runeword.'},
-      alt:{rit:'CEM',inv:'GAR',ritD:'75 Offering on Evade',invD:'+7% Critical Strike Chance for 5 seconds',why:'Reliable Critical Strike if missing AHU or QAX.'}
+      alt:{rit:'CEM',inv:'GAR',ritD:'75 Offering on Evade',invD:'+7% Critical Strike Chance for 5 seconds',why:'Reliable Critical Strike if missing AHU or QAX.'},
+      fallbacks:[
+        {have:'AHU only',use:'AHU + GAR',desc:'Lucky Hit into Barrier. Keeps you alive while farming for QAX.'},
+        {have:'AHU only',use:'AHU + XAL',desc:'Lucky Hit into 2s Unstoppable. Great if CC is killing you.'},
+        {have:'AHU only',use:'AHU + TAL',desc:'Lucky Hit pulls in enemies. Helps group mobs for QV.'},
+        {have:'QAX only',use:'CEM + QAX',desc:'Evade triggers resource dump burst. Solid offensive option.'},
+        {have:'Neither',use:'2x Grand Ruby',desc:'Gem with Max Life until you find the runes.'}
+      ]
     },
     gems:{best:'2x Grand Ruby',bestS:'+Maximum Life',alt:'2x Grand Topaz',altS:'+Basic Skill Damage'},
     aspect:{best:'Aspect of Forest Power',bestCat:'Defensive',bestCatC:'cat-def',bestD:'Gorilla skills generate Barrier with bonuses',
@@ -365,9 +407,22 @@ function renderBuild() {
 
     // Socket section
     if (s.sockets === 2 && s.runes) {
+      let fallbackHtml='';
+      if(s.runes.fallbacks&&s.runes.fallbacks.length){
+        fallbackHtml=`<div class="rune-fallback">
+          <div class="rune-fallback-title">Missing one rune?</div>
+          ${s.runes.fallbacks.map(f=>`<div class="rune-fallback-row">
+            <span class="rune-fallback-have">${f.have}</span>
+            <span class="rune-fallback-arrow">→</span>
+            <span class="rune-fallback-use">${f.use}</span>
+            <span class="rune-fallback-desc">${f.desc}</span>
+          </div>`).join('')}
+        </div>`;
+      }
       detail += `<div class="info-block">
         <div class="info-label"><span class="dot rune"></span>RUNEWORDS</div>
         ${renderRune('Best',s.runes.best)}${renderRune('Alt',s.runes.alt)}
+        ${fallbackHtml}
         <div style="margin-top:10px;font-size:12px;color:var(--text3);padding:8px 10px;background:var(--card);border-radius:6px">If rune slots used elsewhere, gem this slot instead:</div>
         <div style="margin-top:8px">
           ${renderGem('Gem',s.gems.best,s.gems.bestS)}
@@ -397,10 +452,19 @@ function renderBuild() {
       ${renderAspect('Alt',s.aspect.alt,s.aspect.altCat,s.aspect.altCatC,s.aspect.altD)}
     </div>`;
 
-    // Temper
+    // Temper with tracker
     detail += `<div class="info-block">
       <div class="info-label"><span class="dot temper"></span>TEMPER</div>
-      ${s.temper ? renderTemper('Best',s.temper.best,s.temper.bestCat,s.temper.bestCatC,s.temper.bestR) + renderTemper('Alt',s.temper.alt,s.temper.altCat,s.temper.altCatC,s.temper.altR) : '<div style="font-size:13px;color:var(--text3)">No temper for this slot.</div>'}
+      ${s.temper ? renderTemper('Best',s.temper.best,s.temper.bestCat,s.temper.bestCatC,s.temper.bestR) + renderTemper('Alt',s.temper.alt,s.temper.altCat,s.temper.altCatC,s.temper.altR)
+      + `<div class="temper-track">
+          <div class="temper-track-label">Temper Status:</div>
+          <div class="temper-track-row" onclick="toggleTemper('${s.id}','t1',this);event.stopPropagation()">
+            <input type="checkbox" class="temper-chk" id="tmp_${s.id}_t1"><span>Temper 1 landed</span>
+          </div>
+          <div class="temper-track-row" onclick="toggleTemper('${s.id}','t2',this);event.stopPropagation()">
+            <input type="checkbox" class="temper-chk" id="tmp_${s.id}_t2"><span>Temper 2 landed</span>
+          </div>
+        </div>` : '<div style="font-size:13px;color:var(--text3)">No temper for this slot.</div>'}
     </div>`;
 
     // Stats
@@ -465,16 +529,30 @@ function renderTemper(tag, name, cat, catC, range) {
 const W={S:10,A:7,B:4,C:2,X:0};
 
 // FULL affix pools per slot for Spiritborn (from d4builds.gg Season 11)
+const GC_INHERENT = {
+  helm:[{n:'Armor (inherent)',u:'',w:W.B}],
+  chest:[{n:'Armor (inherent)',u:'',w:W.B}],
+  gloves:[{n:'Armor (inherent)',u:'',w:W.B}],
+  pants:[{n:'Armor (inherent)',u:'',w:W.B}],
+  boots:[{n:'Armor (inherent)',u:'',w:W.B},{n:'Movement Speed (inherent)',u:'%',w:W.A}],
+  weapon:[{n:'Damage per Second (inherent)',u:'',w:W.S},{n:'Damage per Hit (inherent)',u:'',w:W.A},{n:'Attacks per Second (inherent)',u:'',w:W.A},{n:'Weapon Type Bonus (inherent)',u:'',w:W.B}],
+  amulet:[{n:'Resistance to All Elements (inherent)',u:'',w:W.B}],
+  ring1:[{n:'Resistance to All Elements (inherent)',u:'',w:W.B}],
+  ring2:[{n:'Resistance to All Elements (inherent)',u:'',w:W.B}],
+};
 const GC_STATS = {
   helm:[
-    {n:'Maximum Life',u:'',w:W.A},
-    {n:'Armor',u:'',w:W.B},
     {n:'Dexterity',u:'',w:W.S},
+    {n:'+Ranks Potency Skills',u:'',w:W.A},
+    {n:'Maximum Life',u:'',w:W.A},
     {n:'Cooldown Reduction',u:'%',w:W.A},
     {n:'Maximum Resource',u:'',w:W.A},
     {n:'Resource Cost Reduction',u:'%',w:W.A},
+    {n:'Armor',u:'',w:W.B},
     {n:'Lucky Hit Chance',u:'%',w:W.B},
     {n:'Resistance to All Elements',u:'',w:W.B},
+    {n:'Vigor per Second',u:'',w:W.B},
+    {n:'Crowd Control Duration',u:'%',w:W.C},
     {n:'Life per 5 Seconds',u:'',w:W.C},
     {n:'Life on Kill',u:'',w:W.C},
     {n:'Healing Received',u:'%',w:W.C},
@@ -486,15 +564,15 @@ const GC_STATS = {
     {n:'Shadow Resistance',u:'',w:W.C},
     {n:'Physical Resistance',u:'',w:W.C},
     {n:'Thorns',u:'',w:W.X},
-    {n:'Vigor per Second',u:'',w:W.B},
   ],
   chest:[
-    {n:'Maximum Life',u:'',w:W.A},
-    {n:'Armor',u:'',w:W.B},
     {n:'Dexterity',u:'',w:W.S},
+    {n:'Maximum Life',u:'',w:W.A},
     {n:'Resource Cost Reduction',u:'%',w:W.A},
     {n:'Maximum Resource',u:'',w:W.A},
+    {n:'Armor',u:'',w:W.B},
     {n:'Resistance to All Elements',u:'',w:W.B},
+    {n:'Vigor per Second',u:'',w:W.B},
     {n:'Life per 5 Seconds',u:'',w:W.C},
     {n:'Life on Kill',u:'',w:W.C},
     {n:'Healing Received',u:'%',w:W.C},
@@ -506,40 +584,41 @@ const GC_STATS = {
     {n:'Shadow Resistance',u:'',w:W.C},
     {n:'Physical Resistance',u:'',w:W.C},
     {n:'Thorns',u:'',w:W.X},
-    {n:'Vigor per Second',u:'',w:W.B},
   ],
   gloves:[
     {n:'+Ranks Quill Volley',u:'',w:W.S},
     {n:'Critical Strike Chance',u:'%',w:W.S},
     {n:'Critical Strike Damage',u:'%',w:W.S},
-    {n:'Attack Speed',u:'%',w:W.A},
     {n:'Vulnerable Damage',u:'%',w:W.S},
     {n:'Dexterity',u:'',w:W.S},
+    {n:'Attack Speed',u:'%',w:W.A},
     {n:'Cooldown Reduction',u:'%',w:W.A},
     {n:'Maximum Life',u:'',w:W.A},
+    {n:'Resource Cost Reduction',u:'%',w:W.A},
+    {n:'Primary Resource',u:'%',w:W.A},
     {n:'Armor',u:'',w:W.B},
     {n:'Lucky Hit Chance',u:'%',w:W.B},
-    {n:'Resource Cost Reduction',u:'%',w:W.A},
+    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
+    {n:'+Ranks Core Skills',u:'',w:W.B},
     {n:'Life on Hit',u:'',w:W.C},
     {n:'Life on Kill',u:'',w:W.C},
     {n:'Life per 5 Seconds',u:'',w:W.C},
+    {n:'Resistance to All Elements',u:'',w:W.C},
     {n:'Overpower Damage',u:'%',w:W.X},
     {n:'Damage Over Time',u:'%',w:W.X},
-    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
-    {n:'Primary Resource',u:'%',w:W.A},
-    {n:'Resistance to All Elements',u:'',w:W.C},
-    {n:'+Ranks Core Skills',u:'',w:W.B},
   ],
   pants:[
+    {n:'Dexterity',u:'',w:W.S},
     {n:'Maximum Life',u:'',w:W.A},
     {n:'Armor',u:'',w:W.B},
-    {n:'Dexterity',u:'',w:W.S},
-    {n:'Dodge Chance',u:'%',w:W.C},
     {n:'Resistance to All Elements',u:'',w:W.B},
+    {n:'+Ranks Basic Skills',u:'',w:W.B},
     {n:'Life per 5 Seconds',u:'',w:W.C},
     {n:'Life on Kill',u:'',w:W.C},
     {n:'Healing Received',u:'%',w:W.C},
+    {n:'Dodge Chance',u:'%',w:W.C},
     {n:'Fortify Generation',u:'%',w:W.C},
+    {n:'Potion Capacity',u:'',w:W.C},
     {n:'Cold Resistance',u:'',w:W.C},
     {n:'Fire Resistance',u:'',w:W.C},
     {n:'Lightning Resistance',u:'',w:W.C},
@@ -547,19 +626,18 @@ const GC_STATS = {
     {n:'Shadow Resistance',u:'',w:W.C},
     {n:'Physical Resistance',u:'',w:W.C},
     {n:'Thorns',u:'',w:W.X},
-    {n:'+Ranks Basic Skills',u:'',w:W.B},
-    {n:'Potion Capacity',u:'',w:W.C},
   ],
   boots:[
+    {n:'Dexterity',u:'',w:W.S},
     {n:'Movement Speed',u:'%',w:W.A},
     {n:'Maximum Life',u:'',w:W.A},
     {n:'Armor',u:'',w:W.B},
-    {n:'Dexterity',u:'',w:W.S},
-    {n:'Dodge Chance',u:'%',w:W.C},
     {n:'Resistance to All Elements',u:'',w:W.B},
+    {n:'Vigor per Second',u:'',w:W.B},
     {n:'Life per 5 Seconds',u:'',w:W.C},
     {n:'Life on Kill',u:'',w:W.C},
     {n:'Healing Received',u:'%',w:W.C},
+    {n:'Dodge Chance',u:'%',w:W.C},
     {n:'Fortify Generation',u:'%',w:W.C},
     {n:'Cold Resistance',u:'',w:W.C},
     {n:'Fire Resistance',u:'',w:W.C},
@@ -567,105 +645,105 @@ const GC_STATS = {
     {n:'Poison Resistance',u:'',w:W.C},
     {n:'Shadow Resistance',u:'',w:W.C},
     {n:'Physical Resistance',u:'',w:W.C},
-    {n:'Vigor per Second',u:'',w:W.B},
   ],
   weapon:[
-    {n:'DPS (Damage per Second)',u:'',w:W.S},
     {n:'Dexterity',u:'',w:W.S},
     {n:'Critical Strike Damage',u:'%',w:W.S},
     {n:'Vulnerable Damage',u:'%',w:W.S},
+    {n:'Damage to Elites',u:'%',w:W.A},
     {n:'Damage',u:'%',w:W.A},
     {n:'Resource Cost Reduction',u:'%',w:W.A},
     {n:'Maximum Life',u:'',w:W.A},
+    {n:'Primary Resource',u:'%',w:W.A},
+    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
+    {n:'Vigor on Kill',u:'',w:W.B},
+    {n:'Lucky Hit Chance',u:'%',w:W.B},
     {n:'Life on Hit',u:'',w:W.C},
     {n:'Life on Kill',u:'',w:W.C},
     {n:'Overpower Damage',u:'%',w:W.X},
     {n:'Damage Over Time',u:'%',w:W.X},
-    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
-    {n:'Primary Resource',u:'%',w:W.A},
-    {n:'Vigor on Kill',u:'',w:W.B},
   ],
   amulet:[
-    {n:'All Stats',u:'',w:W.A},
     {n:'Dexterity',u:'',w:W.S},
     {n:'Critical Strike Damage',u:'%',w:W.S},
     {n:'Critical Strike Chance',u:'%',w:W.S},
+    {n:'All Stats',u:'',w:W.A},
     {n:'Maximum Resource',u:'',w:W.A},
     {n:'Resource Cost Reduction',u:'%',w:W.A},
     {n:'Cooldown Reduction',u:'%',w:W.A},
-    {n:'Movement Speed',u:'%',w:W.B},
     {n:'Damage',u:'%',w:W.A},
     {n:'Attack Speed',u:'%',w:W.A},
-    {n:'Lucky Hit Chance',u:'%',w:W.B},
     {n:'Maximum Life',u:'',w:W.A},
+    {n:'Movement Speed',u:'%',w:W.B},
+    {n:'Lucky Hit Chance',u:'%',w:W.B},
     {n:'Resistance to All Elements',u:'',w:W.B},
+    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
+    {n:'Vigor on Kill',u:'',w:W.B},
+    {n:'+Ranks Passive Skills',u:'',w:W.B},
     {n:'Life per 5 Seconds',u:'',w:W.C},
     {n:'Life on Kill',u:'',w:W.C},
     {n:'Life on Hit',u:'',w:W.C},
     {n:'Healing Received',u:'%',w:W.C},
-    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
     {n:'Cold Resistance',u:'',w:W.C},
     {n:'Fire Resistance',u:'',w:W.C},
     {n:'Lightning Resistance',u:'',w:W.C},
     {n:'Poison Resistance',u:'',w:W.C},
     {n:'Shadow Resistance',u:'',w:W.C},
     {n:'Physical Resistance',u:'',w:W.C},
-    {n:'Vigor on Kill',u:'',w:W.B},
-    {n:'+Ranks Passive Skills',u:'',w:W.B},
   ],
   ring1:[
     {n:'Critical Strike Chance',u:'%',w:W.S},
     {n:'Critical Strike Damage',u:'%',w:W.S},
     {n:'Vulnerable Damage',u:'%',w:W.S},
+    {n:'Dexterity',u:'',w:W.S},
     {n:'Attack Speed',u:'%',w:W.A},
     {n:'Damage',u:'%',w:W.A},
-    {n:'Lucky Hit Chance',u:'%',w:W.B},
     {n:'Cooldown Reduction',u:'%',w:W.A},
     {n:'Resource Cost Reduction',u:'%',w:W.A},
     {n:'Maximum Life',u:'',w:W.A},
-    {n:'Dexterity',u:'',w:W.S},
+    {n:'Lucky Hit Chance',u:'%',w:W.B},
+    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
+    {n:'Resistance to All Elements',u:'',w:W.B},
+    {n:'Vigor on Kill',u:'',w:W.B},
     {n:'Life per 5 Seconds',u:'',w:W.C},
     {n:'Life on Kill',u:'',w:W.C},
     {n:'Life on Hit',u:'',w:W.C},
     {n:'Healing Received',u:'%',w:W.C},
-    {n:'Overpower Damage',u:'%',w:W.X},
-    {n:'Damage Over Time',u:'%',w:W.X},
-    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
-    {n:'Resistance to All Elements',u:'',w:W.B},
     {n:'Cold Resistance',u:'',w:W.C},
     {n:'Fire Resistance',u:'',w:W.C},
     {n:'Lightning Resistance',u:'',w:W.C},
     {n:'Poison Resistance',u:'',w:W.C},
     {n:'Shadow Resistance',u:'',w:W.C},
     {n:'Physical Resistance',u:'',w:W.C},
-    {n:'Vigor on Kill',u:'',w:W.B},
+    {n:'Overpower Damage',u:'%',w:W.X},
+    {n:'Damage Over Time',u:'%',w:W.X},
   ],
   ring2:[
     {n:'Critical Strike Chance',u:'%',w:W.S},
     {n:'Critical Strike Damage',u:'%',w:W.S},
     {n:'Vulnerable Damage',u:'%',w:W.S},
+    {n:'Dexterity',u:'',w:W.S},
     {n:'Attack Speed',u:'%',w:W.A},
     {n:'Damage',u:'%',w:W.A},
-    {n:'Lucky Hit Chance',u:'%',w:W.B},
     {n:'Cooldown Reduction',u:'%',w:W.A},
     {n:'Resource Cost Reduction',u:'%',w:W.A},
     {n:'Maximum Life',u:'',w:W.A},
-    {n:'Dexterity',u:'',w:W.S},
+    {n:'Lucky Hit Chance',u:'%',w:W.B},
+    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
+    {n:'Resistance to All Elements',u:'',w:W.B},
+    {n:'Vigor on Kill',u:'',w:W.B},
     {n:'Life per 5 Seconds',u:'',w:W.C},
     {n:'Life on Kill',u:'',w:W.C},
     {n:'Life on Hit',u:'',w:W.C},
     {n:'Healing Received',u:'%',w:W.C},
-    {n:'Overpower Damage',u:'%',w:W.X},
-    {n:'Damage Over Time',u:'%',w:W.X},
-    {n:'Chance to Make Enemies Vulnerable',u:'%',w:W.B},
-    {n:'Resistance to All Elements',u:'',w:W.B},
     {n:'Cold Resistance',u:'',w:W.C},
     {n:'Fire Resistance',u:'',w:W.C},
     {n:'Lightning Resistance',u:'',w:W.C},
     {n:'Poison Resistance',u:'',w:W.C},
     {n:'Shadow Resistance',u:'',w:W.C},
     {n:'Physical Resistance',u:'',w:W.C},
-    {n:'Vigor on Kill',u:'',w:W.B},
+    {n:'Overpower Damage',u:'%',w:W.X},
+    {n:'Damage Over Time',u:'%',w:W.X},
   ],
 };
 
@@ -676,7 +754,7 @@ const GC_REF = {
   gloves:['+Ranks Quill Volley','Critical Strike Chance','Attack Speed','Dexterity','Critical Strike Damage','Vulnerable Damage'],
   pants:['Maximum Life','Dexterity','Armor','Resistance to All Elements'],
   boots:['Movement Speed','Dexterity','Maximum Life','Resistance to All Elements'],
-  weapon:['DPS (Damage per Second)','Dexterity','Critical Strike Damage','Vulnerable Damage','Resource Cost Reduction'],
+  weapon:['DPS (Damage per Second)','Dexterity','Critical Strike Damage','Vulnerable Damage','Attacks per Second','Resource Cost Reduction'],
   amulet:['All Stats','Critical Strike Damage','Maximum Resource','Resource Cost Reduction','Cooldown Reduction'],
   ring1:['Critical Strike Chance','Critical Strike Damage','Vulnerable Damage','Attack Speed','Damage'],
   ring2:['Critical Strike Chance','Critical Strike Damage','Resource Cost Reduction','Attack Speed','Damage'],
@@ -693,6 +771,7 @@ function initGC(){
   const bar=document.getElementById('gcSlotBar');
   bar.innerHTML=Object.keys(GC_STATS).map(k=>`<button class="gc-sbtn${k===gcSlot?' on':''}" onclick="selectGCSlot('${k}',this)">${GC_LABELS[k]}</button>`).join('');
   renderGCAll();
+  loadEquipped();
 }
 
 function selectGCSlot(s,btn){
@@ -700,9 +779,34 @@ function selectGCSlot(s,btn){
   document.querySelectorAll('.gc-sbtn').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
   renderGCAll();
+  loadEquipped();
   document.getElementById('gcResults').classList.remove('show');
 }
 
+function filterAffixes(pre,query){
+  const q=query.toLowerCase().trim();
+  document.querySelectorAll(`.gc-stat-row[data-col="${pre}"]`).forEach(row=>{
+    const name=row.getAttribute('data-affix')||'';
+    const chk=row.querySelector('.gc-stat-check');
+    if(!q||name.includes(q)||chk?.checked){
+      row.style.display='';
+    }else{
+      row.style.display='none';
+    }
+  });
+}
+function toggleTemper(slot,t,row){
+  const chk=document.getElementById('tmp_'+slot+'_'+t);
+  chk.checked=!chk.checked;
+  row.classList.toggle('done',chk.checked);
+}
+function toggleStat(pre,name,row){
+  const chk=document.getElementById(pre+'_chk_'+name);
+  chk.checked=!chk.checked;
+  document.getElementById(pre+'_v_'+name).disabled=!chk.checked;
+  row.classList.toggle('checked',chk.checked);
+  if(chk.checked) document.getElementById(pre+'_v_'+name).focus();
+}
 function renderGCAll(){
   renderGCRef();
   renderGCCol('Eq');
@@ -723,27 +827,42 @@ function renderGCCol(side){
   const metaEl=document.getElementById(`gc${side}Meta`);
   const statsEl=document.getElementById(`gc${side}Stats`);
   metaEl.innerHTML=`<div class="gc-field"><div class="gc-label">Item Power</div><input type="number" class="gc-input" id="${pre}_ip" placeholder="e.g. 696"></div>
-    <div class="gc-field"><div class="gc-label">Unique Power?</div><select class="gc-select" id="${pre}_up"><option value="0">None</option><option value="80">Build-Defining</option><option value="25">Nice to Have</option></select></div>`;
+    <div class="gc-field"><div class="gc-label">Aspect / Unique Name</div><input type="text" class="gc-input" id="${pre}_aspect" placeholder="e.g. Rebounding, Rod of Kepeleke"></div>
+    <div class="gc-field"><div class="gc-label">Unique Power?</div><select class="gc-select" id="${pre}_up"><option value="0">None (Legendary)</option><option value="80">Build-Defining (QV/Vigor related)</option><option value="25">Nice to Have (generic damage/defense)</option><option value="-20">Not Relevant to QV (skip)</option></select></div>`;
   const stats=GC_STATS[gcSlot]||[];
+  const inherent=GC_INHERENT[gcSlot]||[];
   const tierN=w=>w>=10?'S':w>=7?'A':w>=4?'B':w>=2?'C':'TRASH';
   const tierC=w=>w>=10?'s':w>=7?'a':w>=4?'b':w>=2?'c':'x';
-  statsEl.innerHTML='<div class="gc-section-label">AFFIXES</div>'+stats.map(s=>`<div class="gc-stat-row">
-    <input type="checkbox" class="gc-stat-check" id="${pre}_chk_${s.n}" onchange="document.getElementById('${pre}_v_${s.n}').disabled=!this.checked">
+  let html='';
+  if(inherent.length){
+    html+='<div class="gc-section-label">INHERENT STATS</div>'+inherent.map(s=>`<div class="gc-stat-row" onclick="toggleStat('${pre}','${s.n}',this)">
+    <input type="checkbox" class="gc-stat-check" id="${pre}_chk_${s.n}">
     <span class="gc-stat-name">${s.n}</span>
     <span class="gc-stat-tier ${tierC(s.w)}">${tierN(s.w)}</span>
-    <input type="number" class="gc-stat-input" id="${pre}_v_${s.n}" disabled placeholder="0" step="any">
+    <input type="number" class="gc-stat-input" id="${pre}_v_${s.n}" disabled placeholder="0" step="any" onclick="event.stopPropagation()">
     <span class="gc-stat-unit">${s.u}</span>
   </div>`).join('');
+  }
+  html+=`<div class="gc-section-label" style="margin-top:12px">AFFIXES</div><input type="text" class="gc-search" id="${pre}_search" placeholder="Search affixes..." oninput="filterAffixes('${pre}',this.value)">`+stats.map(s=>`<div class="gc-stat-row" data-col="${pre}" data-affix="${s.n.toLowerCase()}" onclick="toggleStat('${pre}','${s.n}',this)">
+    <input type="checkbox" class="gc-stat-check" id="${pre}_chk_${s.n}">
+    <span class="gc-stat-name">${s.n}</span>
+    <span class="gc-stat-tier ${tierC(s.w)}">${tierN(s.w)}</span>
+    <input type="number" class="gc-stat-input" id="${pre}_v_${s.n}" disabled placeholder="0" step="any" onclick="event.stopPropagation()">
+    <span class="gc-stat-unit">${s.u}</span>
+  </div>`).join('');
+  statsEl.innerHTML=html;
 }
 
 function getScore(pre){
   const stats=GC_STATS[gcSlot]||[];
+  const inherent=GC_INHERENT[gcSlot]||[];
+  const allStats=[...inherent,...stats];
   let score=0,bd=[];
   const ip=parseFloat(document.getElementById(`${pre}_ip`)?.value)||0;
   if(ip>0){const s=Math.max(0,(ip-600)*.1);score+=s;bd.push({n:`Item Power (${ip})`,v:s,r:ip});}
   const up=parseFloat(document.getElementById(`${pre}_up`)?.value)||0;
   if(up){score+=up;bd.push({n:'Unique Power',v:up,r:up});}
-  stats.forEach(s=>{
+  allStats.forEach(s=>{
     const chk=document.getElementById(`${pre}_chk_${s.n}`);
     const val=document.getElementById(`${pre}_v_${s.n}`);
     if(chk?.checked){
@@ -788,121 +907,162 @@ function runCompare(){
     action='Try both in a few runs and see which feels better. Check if the new piece enables a Masterwork target you need.';
   }
 
+  const eqAspect=document.getElementById('eq_aspect')?.value||'';
+  const ndAspect=document.getElementById('nd_aspect')?.value||'';
+  const aspectLine=(eqAspect||ndAspect)?`<div style="font-size:13px;color:var(--text2);margin-top:6px">${eqAspect?'Equipped: <strong>'+eqAspect+'</strong>':''}${eqAspect&&ndAspect?' vs ':''} ${ndAspect?'New: <strong>'+ndAspect+'</strong>':''}</div>`:'';
+
   const r=document.getElementById('gcResults');
   r.innerHTML=`<div class="gc-verdict ${vc}"><div class="gc-verdict-word">${verdict}</div>
-    <div class="gc-verdict-score">Equipped: ${eq.score} pts / New Drop: ${nd.score} pts (${pct>=0?'+':''}${pct}%)</div>
+    <div class="gc-verdict-score">Equipped: ${eq.score} pts / New Drop: ${nd.score} pts (${pct>=0?'+':''}${pct}%)</div>${aspectLine}
     <div class="gc-verdict-reason">${reason}</div></div>
     <div class="gc-diff-grid"><div class="gc-diff-col gains"><h3>Gains</h3>${gains.length?gains.map(g=>`<div class="gc-diff-row"><span>${g.n}</span><span class="gc-diff-val pos">+${g.d}${g.u}</span></div>`).join(''):'<div style="font-size:13px;color:var(--text3)">None</div>'}</div>
     <div class="gc-diff-col losses"><h3>Losses</h3>${losses.length?losses.map(l=>`<div class="gc-diff-row"><span>${l.n}</span><span class="gc-diff-val neg">-${l.d}${l.u}</span></div>`).join(''):'<div style="font-size:13px;color:var(--text3)">None</div>'}</div></div>
-    <div class="gc-action"><div class="gc-action-label">What To Do</div><div class="gc-action-text">${action}</div></div>`;
+    <div class="gc-action"><div class="gc-action-label">What To Do</div><div class="gc-action-text">${action}</div></div>
+    <div class="gc-equip-btns">
+      <button class="gc-equip-btn swap" onclick="saveEquipped('nd')">⬆ Equip New Drop</button>
+      <button class="gc-equip-btn keep" onclick="saveEquipped('eq')">✓ Keep Existing</button>
+    </div>`;
   r.classList.add('show');
   r.scrollIntoView({behavior:'smooth'});
 }
 
-// ======= PROGRESS =======
-// ======= PARAGON GUIDE =======
-const PARAGON_DATA = {
-  intro: "At Level 60, you unlock Paragon. The strategy is: rush Glyph Sockets and Legendary Nodes first. Don't waste points on small stat nodes early.",
-  boards: [
-    {
-      num: 1, name: "Starter Board", glyph: "Exploit",
-      why: "Your Vital Strikes key passive guarantees Crits vs Vulnerable enemies. Exploit forces Vulnerable and multiplies that damage. Non-negotiable first glyph.",
-      path: "From the center, path straight toward the Glyph Socket. Grab Dexterity nodes along the way (they fulfill glyph radius requirements and boost damage). After socketing Exploit, pick up any nearby Rare nodes with Damage to Vulnerable or Damage Reduction.",
-      points: "~15-20 points to socket + activate"
-    },
-    {
-      num: 2, name: "Second Board", glyph: "Spirit",
-      why: "Increases Critical Strike Damage. Since Vital Strikes guarantees Crits against Vulnerable targets, this is your best damage scaler after Exploit.",
-      path: "Attach board, then rush straight to the Legendary Node first (big power spike). Then path to the Glyph Socket and insert Spirit. Grab Dexterity nodes in the glyph radius to activate the bonus.",
-      points: "~25-30 total points"
-    },
-    {
-      num: 3, name: "Viscous Shield", glyph: "Colossal",
-      why: "Synergizes with Armored Hide and your Gorilla defensive layers. Converts Barrier into offense, letting you scale damage while staying alive for Torment difficulties.",
-      path: "Attach board, rush Legendary Node, then Glyph Socket. Insert Colossal. Pick up Barrier and defensive nodes in the radius.",
-      points: "~35-40 total points"
+function captureCol(pre){
+  const stats=GC_STATS[gcSlot]||[];
+  const inherent=GC_INHERENT[gcSlot]||[];
+  const allStats=[...inherent,...stats];
+  const data={slot:gcSlot,ip:'',aspect:'',up:'0',affixes:{}};
+  data.ip=document.getElementById(`${pre}_ip`)?.value||'';
+  data.aspect=document.getElementById(`${pre}_aspect`)?.value||'';
+  data.up=document.getElementById(`${pre}_up`)?.value||'0';
+  allStats.forEach(s=>{
+    const chk=document.getElementById(`${pre}_chk_${s.n}`);
+    const val=document.getElementById(`${pre}_v_${s.n}`);
+    if(chk?.checked){
+      data.affixes[s.n]=val?.value||'0';
     }
-  ],
-  tips: [
-    "BOARD RUSH method: Always prioritize Glyph Socket and Legendary Node before small nodes.",
-    "Your Vigor problems are solved by GEAR (CIR+LUM runes, Resource Gen rolls, Ring of Midnight Sun), not by chasing small Paragon resource nodes.",
-    "Glyphs go from radius 3 to radius 4 at Glyph Level 15. Level them in The Pit.",
-    "This pathing works from fresh 60 all the way to endgame. No respec needed."
-  ]
-};
+  });
+  return data;
+}
 
+function saveEquipped(pre){
+  const data=captureCol(pre);
+  const saved=JSON.parse(localStorage.getItem('qv_equipped')||'{}');
+  saved[gcSlot]=data;
+  localStorage.setItem('qv_equipped',JSON.stringify(saved));
+  // Reload columns: populate eq with saved, clear nd
+  renderGCAll();
+  loadEquipped();
+  // Clear results
+  const r=document.getElementById('gcResults');
+  r.innerHTML=`<div class="gc-saved-msg">✓ Saved to Equipped for ${GC_LABELS[gcSlot]}. New Drop column cleared for your next comparison.</div>`;
+  r.classList.add('show');
+}
+
+function loadEquipped(){
+  const saved=JSON.parse(localStorage.getItem('qv_equipped')||'{}');
+  const data=saved[gcSlot];
+  if(!data) return;
+  const pre='eq';
+  // Set meta fields
+  const ipEl=document.getElementById(`${pre}_ip`);
+  if(ipEl&&data.ip) ipEl.value=data.ip;
+  const aspEl=document.getElementById(`${pre}_aspect`);
+  if(aspEl&&data.aspect) aspEl.value=data.aspect;
+  const upEl=document.getElementById(`${pre}_up`);
+  if(upEl&&data.up) upEl.value=data.up;
+  // Set affixes
+  if(data.affixes){
+    Object.entries(data.affixes).forEach(([name,val])=>{
+      const chk=document.getElementById(`${pre}_chk_${name}`);
+      const inp=document.getElementById(`${pre}_v_${name}`);
+      const row=chk?.closest('.gc-stat-row');
+      if(chk){chk.checked=true;if(row)row.classList.add('checked');}
+      if(inp){inp.disabled=false;inp.value=val;}
+    });
+  }
+}
+
+// ======= PROGRESS =======
+const PARAGON_DATA={
+  intro:"Rush Glyph Sockets and Legendary Nodes first. Skip small stat nodes early. Gear solves Vigor and Resources, so Paragon is pure offense and defense scaling.",
+  boards:[
+    {num:1,name:"Starter Board",glyph:"Exploit",why:"Multiplies ALL damage to Vulnerable targets. Your Vital Strikes passive makes everything Vulnerable, so this is always active. Slot Dexterity nodes in radius for bonus.",path:"Center → path straight to Glyph Socket grabbing Dex nodes. After socketing, grab nearby Rare nodes (Damage, DR). Then path to board edge.",points:"~15-20"},
+    {num:2,name:"Second Board",glyph:"Spirit",why:"Scales Crit Damage, your primary multiplier with Precision + QV's base crit. Rush the Legendary Node on this board first for a big power spike.",path:"Attach board → beeline Legendary Node first → then path to Glyph Socket → socket Spirit. Grab Willpower nodes in radius.",points:"~25-30"},
+    {num:3,name:"Viscous Shield",glyph:"Colossal",why:"Converts Barrier strength into offense. Pairs with your barrier generation from Safeguard + Ring of Midnight Sun for a feedback loop.",path:"Attach board → path to Glyph Socket → socket Colossal. Then grab Legendary Node. Prioritize Strength nodes in radius.",points:"~35-40"}
+  ],
+  tips:["<strong>BOARD RUSH</strong>: Path minimum nodes to reach sockets/legendaries. Fill in later.","<strong>VIGOR = GEAR</strong>: Don't waste Paragon on Vigor. CIR+LUM runes, Resource Gen rolls, and Ring of Midnight Sun handle it.","<strong>GLYPH LEVELING</strong>: Radius grows from 3→4 at glyph level 15. Run Nightmare Dungeons to level glyphs fast.","<strong>NO RESPEC NEEDED</strong>: This pathing works from level 60 onward. Just keep extending as you earn points."]
+};
 const PROGRESS=[
-  {pri:'P0',task:'Get Rod of Kepeleke (Quarterstaff)',how:'World Boss drops, Helltide chests, Purveyor gambling. This is your #1 priority, the entire build revolves around it.',done:false,cat:'gear'},
-  {pri:'P0',task:'Get Rebounding Aspect',how:'Random legendary drop or Codex of Power (Offensive category). Check your Codex first, you may already have it.',done:false,cat:'gear'},
-  {pri:'P0',task:'Get Ring of the Midnight Sun',how:'Target farm: Varshan or Grigoire boss fights. Enables the infinite Vigor engine that makes QV work.',done:false,cat:'gear'},
-  {pri:'P1',task:'Get Harmony of Ebewaka (Helm)',how:'Target farm: Beast in the Ice boss fight. Huge damage multiplier from combining 3 spirit types.',done:false,cat:'gear'},
-  {pri:'P1',task:"Get Locran's Talisman (Amulet)",how:'Random unique drop or Purveyor gambling (Amulet tab). Critical Strike Chance per point of Vigor.',done:false,cat:'gear'},
-  {pri:'P1',task:'Find Legendary Gloves with +Ranks Quill Volley',how:'Gamble at Purveyor (Gloves tab) or Helltide chests. Need +2 or +3 ranks. This is your biggest DPS affix.',done:false,cat:'gear'},
-  {pri:'P2',task:'Get POC + XAN runes for Chest',how:'Runes drop from Undercity runs, Helltides, and open world content. POC is a Ritual rune, XAN is an Invocation rune.',done:false,cat:'runes'},
-  {pri:'P2',task:'Get AHU + QAX runes for Pants',how:'Same rune sources. AHU is Ritual, QAX is Invocation. These are your 2 active runeword pairs.',done:false,cat:'runes'},
-  {pri:'P2',task:'Get Tassets of the Dawning Sky (Pants)',how:'Random unique drop. Provides reactive resistance to incoming damage types.',done:false,cat:'gear'},
-  {pri:'P2',task:'Get Path of the Emissary (Boots)',how:'Kill Lord Zir boss. Invokes Core Skill from Eagle Spirit Hall as you move.',done:false,cat:'gear'},
-  {pri:'P3',task:'Temper all slots with Best recommendation',how:'Visit the Blacksmith. Check Build Guide tab for the exact temper and category per slot. Reroll until you hit the right one.',done:false,cat:'craft'},
-  {pri:'P3',task:'Masterwork priority pieces (Weapon first)',how:'Requires Pit materials. Target Critical Strike Damage or Vulnerable Damage for 12x multiplier on the 4th upgrade.',done:false,cat:'craft'},
-  {pri:'P3',task:'Socket gems in Helm + Weapon (2x each)',how:'Helm: Grand Ruby (+Max Life). Weapon: Grand Topaz (+Basic Skill Damage). Visit the Jeweler.',done:false,cat:'craft'},
-  {pri:'P3',task:'Hit 100%+ Resource Generation',how:'Required for Ring of Midnight Sun to fully restore Vigor every hit. Stack from: Intelligence, Vigorous passive, Paragon nodes, jewelry tempers.',done:false,cat:'build'},
+  {pri:'Step 1',task:'Get Rod of Kepeleke (Quarterstaff)',how:'World Boss drops, Helltide chests, Purveyor gambling. The entire build revolves around this weapon. Nothing else matters until you have it.'},
+  {pri:'Step 2',task:'Get Rebounding Aspect',how:'Random legendary drop or Codex of Power (Offensive category). Check your Codex first, you may already have it unlocked. Imprint it on your weapon or Ring 1.'},
+  {pri:'Step 3',task:'Get Ring of the Midnight Sun',how:'Target farm: Varshan or Grigoire boss fights. This enables the infinite Vigor engine. Without it, Rod of Kepeleke drains you dry.'},
+  {pri:'Step 4',task:'Hit 100%+ Resource Generation',how:'Required for Ring of Midnight Sun to fully restore Vigor every hit. Stack from: Intelligence, Vigorous passive ranks, Paragon nodes (Sapping board), jewelry Resource Generation tempers.'},
+  {pri:'Step 5',task:'Find Legendary Gloves with +Ranks Quill Volley',how:'Gamble at Purveyor (Gloves tab) or farm Helltide chests. Need +2 or +3 ranks. This is your single biggest DPS affix outside of uniques.'},
+  {pri:'Step 6',task:'Get Harmony of Ebewaka (Helm)',how:'Target farm: Beast in the Ice boss fight. Huge damage multiplier from combining 3 spirit types. Big upgrade but the build works without it.'},
+  {pri:'Step 7',task:"Get Locran's Talisman (Amulet)",how:'Random unique drop or Purveyor gambling (Amulet tab). Gives Critical Strike Chance per point of Vigor. Massive when combined with Rod of Kepeleke.'},
+  {pri:'Step 8',task:'Get POC + XAN runes for Chest',how:'Runes drop from Undercity runs, Helltides, and open world content. POC is a Ritual rune, XAN is an Invocation rune. Socket both into your Chest armor.'},
+  {pri:'Step 9',task:'Get AHU + QAX runes for Pants',how:'Same rune sources. AHU is Ritual, QAX is Invocation. These go in your Pants. You now have your 2 active runeword pairs.'},
+  {pri:'Step 10',task:'Socket gems in Helm + Weapon (2x each)',how:'Helm: 2x Grand Ruby (+Maximum Life). Weapon: 2x Grand Topaz (+Basic Skill Damage). Jewelry: Grand Skull (+Armor). Visit the Jeweler.'},
+  {pri:'Step 11',task:'Temper all slots with Best recommendation',how:'Visit the Blacksmith. Check Build Guide tab for the exact temper and category per slot. Reroll until you hit the right affix, then roll for a high value.'},
+  {pri:'Step 12',task:'Get Tassets of the Dawning Sky (Pants)',how:'Random unique drop. Provides reactive resistance to incoming damage types. Nice survivability boost but not build-defining.'},
+  {pri:'Step 13',task:'Get Path of the Emissary (Boots)',how:'Kill Lord Zir boss. Invokes Core Skill from Eagle Spirit Hall as you move. Great for clear speed once the core build is online.'},
+  {pri:'Step 14',task:'Masterwork priority pieces (Weapon first)',how:'Requires Pit materials. Weapon first, then Gloves, then Rings. Target Critical Strike Damage or Vulnerable Damage for the 12x multiplier on the 4th upgrade.'},
 ];
 
 function renderProgress(){
   const el=document.getElementById('progressList');
-  const saved=JSON.parse(localStorage.getItem('qv_progress')||'{}');
-  PROGRESS.forEach((p,i)=>{if(saved[i])p.done=saved[i];});
+  const saved=JSON.parse(localStorage.getItem('qv_progress2')||'{}');
 
-  const cats={gear:'Gear to Find',runes:'Runes to Find',craft:'Crafting Tasks',build:'Build Milestones'};
-  let html='';
-  Object.entries(cats).forEach(([k,label])=>{
-    const items=PROGRESS.map((p,i)=>({...p,i})).filter(p=>p.cat===k);
-    if(!items.length)return;
-    html+=`<div class="prog-section">${label}</div>`;
-    items.forEach(p=>{
-      html+=`<div class="prog-item${p.done?' done':''}" onclick="toggleProg(${p.i})">
-        <div class="prog-check">${p.done?'✓':''}</div>
-        <div class="prog-content">
-          <div class="prog-priority">${p.pri}</div>
-          <div class="prog-task">${p.task}</div>
-          <div class="prog-how">${p.how}</div>
-        </div>
-      </div>`;
-    });
+  let html='<div class="prog-section">Do These In Order</div>';
+  PROGRESS.forEach((p,i)=>{
+    const done=saved[i]||false;
+    html+=`<div class="prog-item${done?' done':''}" onclick="toggleProg(${i})">
+      <div class="prog-check">${done?'✓':''}</div>
+      <div class="prog-content">
+        <div class="prog-priority">${p.pri}</div>
+        <div class="prog-task">${p.task}</div>
+        <div class="prog-how">${p.how}</div>
+      </div>
+    </div>`;
   });
   el.innerHTML=html;
 }
 
 function toggleProg(i){
-  PROGRESS[i].done=!PROGRESS[i].done;
-  const saved=JSON.parse(localStorage.getItem('qv_progress')||'{}');
-  saved[i]=PROGRESS[i].done;
-  localStorage.setItem('qv_progress',JSON.stringify(saved));
+  const saved=JSON.parse(localStorage.getItem('qv_progress2')||'{}');
+  saved[i]=!saved[i];
+  localStorage.setItem('qv_progress2',JSON.stringify(saved));
   renderProgress();
 }
 
 // ======= INIT =======
-// ======= RENDER PARAGON =======
-document.getElementById('paragonIntro').textContent = PARAGON_DATA.intro;
-document.getElementById('paragonBoards').innerHTML = PARAGON_DATA.boards.map(b =>
-  `<div class="slot" onclick="this.classList.toggle('open')">
-    <div class="slot-head">
-      <div class="slot-icon armor">📊</div>
-      <div class="slot-title">
-        <div class="slot-name">Board ${b.num}: ${b.name}</div>
-        <div class="slot-unique"><span class="tu-label">Glyph:</span> <span class="tu-name">${b.glyph}</span></div>
+function renderParagon(){
+  const P=PARAGON_DATA;
+  let h=`<div class="callout" style="background:#2a2318;border-left:4px solid #d4a843;margin-bottom:18px;cursor:pointer" onclick="this.querySelector('.pg-body').classList.toggle('hidden')">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <strong style="color:#d4a843">📊 Paragon Guide (Lvl 60+)</strong><span style="color:#888;font-size:13px">tap to expand</span>
+    </div>
+    <div class="pg-body hidden" style="margin-top:10px" onclick="event.stopPropagation()">
+      <p style="color:#ccc;font-size:13px;margin-bottom:12px">${P.intro}</p>`;
+  P.boards.forEach(b=>{
+    h+=`<div class="slot-card" style="cursor:pointer;margin-bottom:8px" onclick="this.querySelector('.pg-detail').classList.toggle('hidden')">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong style="color:#d4a843">Board ${b.num}: ${b.name}</strong>
+        <span class="badge" style="background:#d4a843;color:#1a1a2e">${b.glyph}</span>
       </div>
-      <span class="slot-arrow">▾</span>
-    </div>
-    <div class="slot-detail">
-      <div class="info-block" style="margin-bottom:8px"><div class="info-label"><span class="dot aspect"></span>WHY THIS GLYPH</div><div class="pick-desc">${b.why}</div></div>
-      <div class="info-block" style="margin-bottom:8px"><div class="info-label"><span class="dot stat"></span>PATHING</div><div class="pick-desc">${b.path}</div></div>
-      <div style="font-size:12px;color:var(--text3)">${b.points}</div>
-    </div>
-  </div>`
-).join('');
-document.getElementById('paragonTips').innerHTML = '<strong>Tips</strong><br>' + PARAGON_DATA.tips.map(t => '• ' + t).join('<br>');
-
+      <div class="pg-detail hidden" style="margin-top:8px;font-size:13px" onclick="event.stopPropagation()">
+        <p><strong style="color:#888">Why:</strong> <span style="color:#ccc">${b.why}</span></p>
+        <p style="margin-top:4px"><strong style="color:#888">Pathing:</strong> <span style="color:#ccc">${b.path}</span></p>
+        <p style="margin-top:4px"><strong style="color:#888">Points:</strong> <span style="color:#6fc">${b.points}</span></p>
+      </div>
+    </div>`;
+  });
+  h+=`<div style="margin-top:10px;padding:8px;background:#1a1a2e;border-radius:6px;font-size:12px;color:#aaa">`;
+  P.tips.forEach(t=>{h+=`<p style="margin:4px 0">• ${t}</p>`;});
+  h+=`</div></div></div>`;
+  document.getElementById('paragonGuide').innerHTML=h;
+}
+renderParagon();
 renderBuild();
 initGC();
 renderProgress();
