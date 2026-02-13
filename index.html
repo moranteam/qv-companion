@@ -982,7 +982,36 @@ function loadEquipped(){
 }
 
 // ======= PROGRESS =======
-const PROGRESS=[
+// ======= PARAGON GUIDE =======
+const PARAGON_DATA = {
+  intro: "At Level 60, you unlock Paragon. The strategy is: rush Glyph Sockets and Legendary Nodes first. Don't waste points on small stat nodes early.",
+  boards: [
+    {
+      num: 1, name: "Starter Board", glyph: "Exploit",
+      why: "Your Vital Strikes key passive guarantees Crits vs Vulnerable enemies. Exploit forces Vulnerable and multiplies that damage. Non-negotiable first glyph.",
+      path: "From the center, path straight toward the Glyph Socket. Grab Dexterity nodes along the way (they fulfill glyph radius requirements and boost damage). After socketing Exploit, pick up any nearby Rare nodes with Damage to Vulnerable or Damage Reduction.",
+      points: "~15-20 points to socket + activate"
+    },
+    {
+      num: 2, name: "Second Board", glyph: "Spirit",
+      why: "Increases Critical Strike Damage. Since Vital Strikes guarantees Crits against Vulnerable targets, this is your best damage scaler after Exploit.",
+      path: "Attach board, then rush straight to the Legendary Node first (big power spike). Then path to the Glyph Socket and insert Spirit. Grab Dexterity nodes in the glyph radius to activate the bonus.",
+      points: "~25-30 total points"
+    },
+    {
+      num: 3, name: "Viscous Shield", glyph: "Colossal",
+      why: "Synergizes with Armored Hide and your Gorilla defensive layers. Converts Barrier into offense, letting you scale damage while staying alive for Torment difficulties.",
+      path: "Attach board, rush Legendary Node, then Glyph Socket. Insert Colossal. Pick up Barrier and defensive nodes in the radius.",
+      points: "~35-40 total points"
+    }
+  ],
+  tips: [
+    "BOARD RUSH method: Always prioritize Glyph Socket and Legendary Node before small nodes.",
+    "Your Vigor problems are solved by GEAR (CIR+LUM runes, Resource Gen rolls, Ring of Midnight Sun), not by chasing small Paragon resource nodes.",
+    "Glyphs go from radius 3 to radius 4 at Glyph Level 15. Level them in The Pit.",
+    "Don't respec later. This pathing works from fresh 60 all the way to endgame."
+  ]
+};const PROGRESS=[
   {pri:'Step 1',task:'Get Rod of Kepeleke (Quarterstaff)',how:'World Boss drops, Helltide chests, Purveyor gambling. The entire build revolves around this weapon. Nothing else matters until you have it.'},
   {pri:'Step 2',task:'Get Rebounding Aspect',how:'Random legendary drop or Codex of Power (Offensive category). Check your Codex first, you may already have it unlocked. Imprint it on your weapon or Ring 1.'},
   {pri:'Step 3',task:'Get Ring of the Midnight Sun',how:'Target farm: Varshan or Grigoire boss fights. This enables the infinite Vigor engine. Without it, Rod of Kepeleke drains you dry.'},
@@ -1026,7 +1055,26 @@ function toggleProg(i){
 }
 
 // ======= INIT =======
-renderBuild();
+// ======= RENDER PARAGON =======
+document.getElementById('paragonIntro').textContent = PARAGON_DATA.intro;
+document.getElementById('paragonBoards').innerHTML = PARAGON_DATA.boards.map(b =>
+  `<div class="slot" onclick="this.classList.toggle('open')">
+    <div class="slot-head">
+      <div class="slot-icon armor">📊</div>
+      <div class="slot-title">
+        <div class="slot-name">Board ${b.num}: ${b.name}</div>
+        <div class="slot-unique"><span class="tu-label">Glyph:</span> <span class="tu-name">${b.glyph}</span></div>
+      </div>
+      <span class="slot-arrow">▾</span>
+    </div>
+    <div class="slot-detail">
+      <div class="info-block" style="margin-bottom:8px"><div class="info-label"><span class="dot aspect"></span>WHY THIS GLYPH</div><div class="pick-desc">${b.why}</div></div>
+      <div class="info-block" style="margin-bottom:8px"><div class="info-label"><span class="dot stat"></span>PATHING</div><div class="pick-desc">${b.path}</div></div>
+      <div style="font-size:12px;color:var(--text3)">${b.points}</div>
+    </div>
+  </div>`
+).join('');
+document.getElementById('paragonTips').innerHTML = '<strong>Tips</strong><br>' + PARAGON_DATA.tips.map(t => '• ' + t).join('<br>');renderBuild();
 initGC();
 renderProgress();
 </script>
